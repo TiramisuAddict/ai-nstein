@@ -39,8 +39,9 @@
               <p class="mb-6">Please sign-in to your account and start the adventure</p>
               
               <!-- login form -->
-              <form id="formAuthentication" class="mb-6">
-                <div class="mb-6">
+              <form id="formAuthentication" class="mb-6" onsubmit="return validate_login()">
+                <!-- email -->
+                <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
                   <input
                     type="text"
@@ -49,9 +50,18 @@
                     name="email"
                     placeholder="Enter your email"
                     autofocus/>
+
+                    <!-- invalid email text -->
+                    <div id="invalidEmail" class="invalid-feedback" style="display: none;">
+                      Invalid email address.
+                    </div>
+                    <!-- invalid email text -->
                 </div>
 
-                <div class="mb-6 form-password-toggle">
+                <!-- email -->
+                
+                <!-- password -->
+                <div class="mb-3 form-password-toggle">
                   <label class="form-label" for="password">Password</label>
                     <input
                       type="password"
@@ -60,22 +70,30 @@
                       name="password"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"/>
                 </div>
+                <!-- password -->
 
                 <div class="mb-8">
                   <div class="d-flex justify-content-between mt-8">
+                    <!-- checkbox -->
                     <div class="form-check mb-0 ms-2">
                       <input class="form-check-input" type="checkbox" id="remember-me" />
                       <label class="form-check-label" for="remember-me"> Remember Me </label>
                     </div>
+                    <!-- checkbox -->
+
+                    <!-- forgot password link -->
                     <a href="#">
                       <span>Forgot Password?</span>
                     </a>
+                    <!-- forgot password link -->
                   </div>
                 </div>
-
+                
+                <!-- submit button -->
                 <div class="mb-6">
-                  <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
+                  <button class="btn btn-primary d-grid w-100" type="submit" id="submitBtn">Login</button>
                 </div>
+                <!-- submit button -->
               </form>
               <!-- login form -->
 
@@ -99,6 +117,6 @@
         </div>
       </div>
     </div>
-
+    <!-- <script src="input_control.js"></script> -->
   </body>
 </html>
