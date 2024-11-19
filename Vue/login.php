@@ -56,7 +56,7 @@
               <p class="mb-6">Please sign-in to your account and start the adventure</p>
               
               <!-- login form -->
-              <form id="formAuthentication" method="post" class="mb-6" action="login.php" onsubmit="return validate_login()">
+              <form id="formAuthentication" method="post" class="mb-6" action="login.php">
                 <!-- email -->
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
@@ -86,6 +86,12 @@
                       class="form-control"
                       name="password"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"/>
+
+                    <!-- invalid password text -->
+                    <div id="invalidPassword" class="invalid-feedback" style="display: none;">
+                      Invalid password.
+                    </div>
+                    <!-- invalid password text -->
                 </div>
                 <!-- password -->
 
@@ -142,6 +148,6 @@
         </div>
       </div>
     </div>
-    <!-- <script src="input_control.js"></script> -->
+    <script src="input_control.js"></script>
   </body>
 </html>

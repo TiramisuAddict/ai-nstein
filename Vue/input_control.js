@@ -15,14 +15,20 @@ function live_validate_email() {
     }
 }
 
+function live_validate_password() {
+    const password = document.getElementById("password").value;
+    if (password.length < 8) {
+        const invalidPassword = document.getElementById("invalidPassword");
+        invalidPassword.style.display = "block";
+        return false;
+    } else {
+        const invalidPassword = document.getElementById("invalidPassword");
+        invalidPassword.style.display = "none";
+    }
+}
+
 const email = document.getElementById("email");
 email.addEventListener("input", live_validate_email);
 
-function validate_login() {
-    
-    const invalidEmail = document.getElementById("invalidEmail");
-    const password = document.getElementById("password").value;
-    const checkbox = document.getElementById("remember-me").checked;
-
-    
-}
+const password = document.getElementById("password");
+password.addEventListener("input", live_validate_password);
