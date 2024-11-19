@@ -55,7 +55,7 @@
               <h4 class="mb-1">Knowledge grows when shared ✨</h4>
               
               <!-- expert application form -->
-              <form id="formAuthentication" class="mb-3">
+              <form method="post" action="addExpert.php" id="formAuthentication" class="mb-3">
                 
                 <div class="row">
                   <span class="col-sm-6">
@@ -100,11 +100,11 @@
                       <label for="experience" class="form-label">How many years of experience do you have ?</label>
                       <select class="form-select" id="experience" name="experience">
                         <option value="0">Choose Period of Expertise</option>
-                        <option value="">No experience</option>
-                        <option value="">1 ~ 2 years</option>
-                        <option value="">2 ~ 5 years</option>
-                        <option value="">5 ~ 10 years</option>
-                        <option value="">+10 years</option>
+                        <option value="none">No experience</option>
+                        <option value="1-2">1 ~ 2 years</option>
+                        <option value="2-5">2 ~ 5 years</option>
+                        <option value="5-10">5 ~ 10 years</option>
+                        <option value="+10">+10 years</option>
                       </select>
                     </div>
     
@@ -131,7 +131,7 @@
                   <span class="col-12">
                     <div class="mb-2">
                         <label for="proof" class="form-label">Proof document</label>
-                        <input class="form-control" type="file" id="proof"/>
+                        <input class="form-control" type="file" id="proof" name="proof"/>
                     </div>
                   </span>
                 </div>
