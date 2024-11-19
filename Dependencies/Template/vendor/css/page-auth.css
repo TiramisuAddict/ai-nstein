@@ -37,7 +37,7 @@
   position: absolute;
   top: -55px;
   right: -50px;
-  background-image: image-set("log_in_pattern.svg");
+  background-image: image-set("/Dependencies/img/log_in_pattern.svg");
 }
 .authentication-wrapper.authentication-basic .authentication-inner:after {
   width: 243px;
@@ -89,7 +89,7 @@
   background-color: #fff;
 }
 .light-style .authentication-wrapper.authentication-basic .authentication-inner:after {
-  background-image: image-set("log_in_pattern_2.svg");
+  background-image: image-set("/Dependencies/img/log_in_pattern_2.svg");
 }
 
 /* ============================================================== */

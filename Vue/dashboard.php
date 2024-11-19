@@ -253,8 +253,8 @@
                             <td><?php echo ($user['role']); ?></td>
                             <td><?php echo ($user['age']); ?></td>
                             <td><?php echo htmlspecialchars($user['pwd']); ?></td>
-                            <td><img src="../Dependencies/img/pen.svg" alt="Modify"></td>
-													  <td><img src="../Dependencies/img/x.svg" alt="Delete"></td>
+                            <td><a href="updateUser.php?id=<?php echo $user['id']; ?>"><img src="../Dependencies/img/pen.svg" alt="Modify"></a></td>
+													  <td><a href="deleteUser.php?id=<?php echo $user['id']; ?>"><img src="../Dependencies/img/x.svg" alt="Delete"></a></td>
                           </tr>
                         <?php endforeach; ?>
 											</tbody>

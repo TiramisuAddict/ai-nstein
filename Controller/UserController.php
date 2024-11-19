@@ -21,8 +21,8 @@ class UserController {
     // Ajouter un utilisateur
     public function addUser($user) {
         $conn = config::getConnexion(); // Connexion à la base de données
-        $sql = "INSERT INTO users (username, email, pwd, itbackground, age, sexe, educationlvl, experience, filename, filedata, role)
-            VALUES (:username, :email, :pwd, :itbackground, :age, :sexe, :educationlvl, :experience, :filename, :filedata, :role)";
+        $sql = "INSERT INTO users (username, email, pwd, itbackground, age, sexe, educationlvl, experience, filename, filedata, role, cdate)
+            VALUES (:username, :email, :pwd, :itbackground, :age, :sexe, :educationlvl, :experience, :filename, :filedata, :role, :cdate)";
 
         try {
             $query = $conn->prepare($sql); // Préparation de la requête(optional)
@@ -37,7 +37,8 @@ class UserController {
                 ':experience' => $user->getExperience(),
                 ':filename' => $user->getFiledata(),
                 ':filedata' => $user->getFiledata(),
-                ':role' => $user->getRole()
+                ':role' => $user->getRole(),
+                ':cdate' => date('Y-m-d')
             ]); // Exécution avec les valeurs du nouvel utilisateur
         } catch (Exception $e) {
             die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
@@ -47,24 +48,49 @@ class UserController {
     // Mettre à jour un utilisateur
     public function updateUser($id,$user){
         $conn = config::getConnexion();
-        $sql="UPDATE user SET email=:email ,pwd=:pwd   WHERE id = :id";
+        $sql = "UPDATE users SET username = :username, email = :email, itbackground = :itbackground, age = :age,
+        sexe = :sexe, educationlvl = :educationlvl WHERE id = :id";
+
         try{
             $query=$conn->prepare($sql);
             $query->execute([
                 ':id'=>$id,
-                ':email'=>$user['email'],
-                ':pwd'=>$user['pwd']
+                ':username' => $user['username'],
+                ':email' => $user['email'],
+                ':itbackground' => $user["itbackground"],
+                ':age' => $user["age"],
+                ':sexe' => $user["sexe"],
+                ':educationlvl' => $user["educationlvl"]
             ]);
-    } catch (Exception $e) {
-        die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
+         } catch (Exception $e) {
+            die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
+        }
     }
-}
+
+    public function updateExpert($id,$user){
+        $conn = config::getConnexion();
+        $sql = "UPDATE users SET username = :username, email = :email, age = :age, sexe = :sexe, experience = :experience WHERE id = :id";
+
+        try{
+            $query=$conn->prepare($sql);
+            $query->execute([
+                ':id'=>$id,
+                ':username' => $user['username'],
+                ':email' => $user['email'],
+                ':age' => $user["age"],
+                ':sexe' => $user["sexe"],
+                ':experience' => $user["experience"]
+            ]);
+         } catch (Exception $e) {
+            die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
+        }
+    }
     
 
     // Supprimer un utilisateur
    public function deleteUser($id){
         $conn = config::getConnexion();
-        $sql="DELETE FROM user WHERE id = :id";
+        $sql="DELETE FROM users WHERE id = :id";
         try{
             $query=$conn->prepare($sql);
             $query->execute([':id'=>$id]);
@@ -77,7 +103,7 @@ class UserController {
 
     public function getUserById($id){
         $conn = config::getConnexion();
-        $sql="select * from User where id=:id ";
+        $sql="select * from Users where id=:id ";
         try{
             $query=$conn->prepare($sql);
             $query->execute( [':id'=>$id]);
@@ -118,4 +144,19 @@ class UserController {
             die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
         }
     }
+
+    public function loginCheck($email, $pwd) {
+        $conn = config::getConnexion();
+
+        $sql = "SELECT * FROM users WHERE email = '$email' AND pwd = '$pwd'";
+
+        try {
+            $query = $conn->prepare($sql);
+            $query->execute();
+            return $query->fetchAll();
+        } catch (Exception $e) {
+            die('Erreur: ' . $e->getMessage());
+        }
+    }
+
 }

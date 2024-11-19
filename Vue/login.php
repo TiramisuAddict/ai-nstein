@@ -1,3 +1,20 @@
+<?php
+    require_once '../Controller/UserController.php';  
+
+    $userController = new UserController();
+
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $result = $userController->loginCheck($email, $password);
+
+    if($result){
+        header('Location: dashboard.php');
+        exit;
+    }
+
+?>
+
 <!doctype html>
 
 <html lang="en" class="light-style layout-wide customizer-hide">
@@ -96,6 +113,14 @@
                 <!-- submit button -->
               </form>
               <!-- login form -->
+
+              <?php
+                if(!$result) {
+                    echo '<div class="alert alert-danger" role="alert">
+                            Invalid email or password.
+                          </div>';
+                }
+              ?>
 
               <!-- other links -->
               <p class="text-center">
