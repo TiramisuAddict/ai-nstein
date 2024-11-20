@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Reclamation</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <style>
+      body {
+        background: linear-gradient(135deg, #6e8efb, #a777e3);
+        font-family: Arial, sans-serif;
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .form-container {
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        max-width: 400px;
+        width: 100%;
+      }
+      .form-container h2 {
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 24px;
+        color: #333;
+      }
+      .btn-primary {
+        background: #6e8efb;
+        border: none;
+      }
+      .btn-primary:hover {
+        background: #5a76d8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Add Reclamation</h2>
+      <form action="addRec.php" method="post">
+        <!-- Title Field -->
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            class="form-control"
+            placeholder="Enter the title"
+            required
+          />
+        </div>
+        <!-- Type Field -->
+        <div class="mb-3">
+          <label for="type" class="form-label">Type</label>
+          <input
+            type="text"
+            name="type"
+            id="type"
+            class="form-control"
+            placeholder="Enter the type"
+            required
+          />
+        </div>
+        <!-- Message Field -->
+        <div class="mb-3">
+          <label for="message" class="form-label">Message</label>
+          <textarea
+            name="message"
+            id="message"
+            rows="5"
+            class="form-control"
+            placeholder="Write your message"
+            required
+          ></textarea>
+        </div>
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </div>
+      </form>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
