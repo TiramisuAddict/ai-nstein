@@ -1,39 +1,29 @@
+<?php
+// Connexion à la base de données
+$host = "localhost";
+$dbname = "youssefbd";
+$username = "root"; // Remplacez par votre nom d'utilisateur MySQL
+$password = ""; // Remplacez par votre mot de passe MySQL
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->exec("SET NAMES utf8");
+} catch (PDOException $e) {
+    die("Erreur de connexion à la base de données : " . $e->getMessage());
+}
+
+// Récupérer les articles de la base de données
+$query = $pdo->query("SELECT * FROM articles ORDER BY date_creation DESC");
+$articles = $query->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Articles - Front Office</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-      rel="stylesheet" />
-
-    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
-
-    <!-- Core CSS -->
-    <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="../assets/css/demo.css" />
-
-    <!-- Vendors CSS -->
-    <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-
-    <!-- Page CSS -->
-
-    <!-- Helpers -->
-    <script src="../assets/vendor/js/helpers.js"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="../assets/js/config.js"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carte avec Image, Titre et Texte</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
- 
 </head>
 <body>
     <header>
@@ -41,54 +31,32 @@
         <input type="text" placeholder="Rechercher un article..." id="search-bar">
     </header>
 
-    <section id="articles-list">
-        <article class="article">
-            <p class="date">Publié le : 11-11-2024</p>
-            <p class="summary">Résumé de l'article...</p>
-            
-        </article>
-        <!-- Ajouter d'autres articles ici -->
+    <section id="articles-list" class="container my-5">
+        <div class="row">
+            <?php foreach ($articles as $article): ?>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card" style="width: 18rem;">
+                        <?php if (!empty($article['image'])): ?>
+                            <img class="card-img-top" src="uploads/<?= htmlspecialchars($article['image']); ?>" alt="<?= htmlspecialchars($article['titre']); ?>">
+                        <?php else: ?>
+                            <img class="card-img-top" src="placeholder.jpg" alt="Image par défaut">
+                        <?php endif; ?>
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($article['titre']); ?></h5>
+                            <p class="card-text"><?= htmlspecialchars($article['contenu']); ?></p>
+                            <p class="card-text">
+                                <small class="text-muted">Publié le : <?= htmlspecialchars($article['date_creation']); ?></small>
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted">Auteur : <?= htmlspecialchars($article['auteur']); ?></small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </section>
 
-    <div class="container my-5">
-        <div class="row">
-            <!-- Première carte -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="1692166016697.jpg" alt="Image de la carte">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Les nouveautés sur notre thématique.</p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    </div>
-                </div>
-            </div>
-    
-            <!-- Deuxième carte -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="Cours-en-Ligne-Gratuits-de-lUniversite-Harvard.webp" alt="Image de la carte">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Les nouveautés sur notre thématique.</p>
-                        <p class="card-text"><small class="text-muted">Last updated 22 mins ago</small></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card-body">
-        <h6 class="text-body mb-6">When should we send you notifications?</h6>
-        <form action="javascript:void(0);">
-          <div class="row">
-            <div class="col-sm-6">
-              <select id="sendNotification" class="form-select" name="sendNotification">
-                <option selected>Only when I'm online</option>
-                <option>Anytime</option>
-              </select>
-            </div>
-    
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

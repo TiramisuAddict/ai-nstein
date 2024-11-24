@@ -1,47 +1,34 @@
 <?php
-require_once '../Controller/articleController.php'; // Inclure le contrôleur d'article
-require_once '../Model/article.php'; // Inclure le modèle d'article
+require_once '../Controller/articleController.php';
+require_once '../Model/article.php';
 
-// Vérifier si les données ont été envoyées via POST
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
-    // Récupérer les données envoyées
+// Vérification si l'article est soumis en POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'];
     $titre = $_POST['titre'];
     $contenu = $_POST['contenu'];
     $auteur = $_POST['auteur'];
     $date_creation = $_POST['date_creation'];
-    
-    // Vérifier si une nouvelle image est téléchargée
-    $image = $_FILES['image']['name'];
-    $image_tmp = $_FILES['image']['tmp_name'];
 
-    // Si une image est téléchargée, déplacer l'image dans le répertoire souhaité
-    if (!empty($image)) {
-        $image_path = 'uploads/' . basename($image);
-        move_uploaded_file($image_tmp, $image_path);
-    } else {
-        // Si aucune image n'est téléchargée, conserver l'image existante
-        $articleController = new articleController();
-        $existingArticle = $articleController->getArticleById($id);
-        $image_path = $existingArticle['image'];
+    // Gérer l'image si elle a été téléchargée
+    $image = null;
+    if (!empty($_FILES['image']['name'])) {
+        // Traiter l'image : déplacer le fichier téléchargé dans le dossier "uploads/"
+        $image = 'uploads/' . basename($_FILES['image']['name']);
+        move_uploaded_file($_FILES['image']['tmp_name'], '../' . $image);
     }
 
-    // Créer une instance de ArticleController pour mettre à jour l'article
+    // Créer une instance du contrôleur
     $articleController = new articleController();
 
-    try {
-        // Mettre à jour l'article dans la base de données
-        $articleController->updateArticle($id, $titre, $contenu, $auteur, $date_creation, $image_path);
-        
-        // Rediriger vers la liste des articles après la mise à jour
-        header('Location: back.php?message=Article mis à jour avec succès');
-        exit();
-    } catch (Exception $e) {
-        echo "Erreur lors de la mise à jour de l'article : " . $e->getMessage();
+    // Mettre à jour l'article
+    if ($articleController->updateArticle($id, $titre, $contenu, $auteur, $date_creation, $image)) {
+        // Redirection vers la page de l'article mis à jour
+        header('Location: back.php?id=' . $id);
+        exit;
+    } else {
+        echo "Erreur lors de la mise à jour de l'article.";
     }
-} else {
-    // Si l'ID n'est pas présent, rediriger vers la liste des articles
-    header('Location: back.php');
-    exit();
 }
 ?>
+

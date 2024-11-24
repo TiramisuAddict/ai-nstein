@@ -1,7 +1,8 @@
 <?php
 require_once '../Controller/articleController.php';
-require_once '../Model/article.php'; // Inclure le contrôleur d'article
+require_once '../Model/article.php';
 
+// Récupérer l'article à modifier
 $articleController = new articleController();
 $article = $articleController->getArticleById($_GET["id"]);
 ?>
@@ -21,7 +22,7 @@ $article = $articleController->getArticleById($_GET["id"]);
 
     <div class="card">
         <div class="card-body">
-            <form action="add_article.php" method="POST" enctype="multipart/form-data">
+            <form action="update_article.php" method="POST" enctype="multipart/form-data">
                 <!-- ID caché -->
                 <input type="hidden" name="id" value="<?= htmlspecialchars($article['id']); ?>">
 
@@ -32,8 +33,8 @@ $article = $articleController->getArticleById($_GET["id"]);
                            value="<?= htmlspecialchars($article['titre']); ?>" required>
                 </div>
 
-                    <!-- Image -->
-                    <div class="mb-3">
+                <!-- Image -->
+                <div class="mb-3">
                     <label for="image" class="form-label">Image</label>
                     <input type="file" id="image" name="image" class="form-control">
                     <?php if (!empty($article['image'])): ?>
@@ -41,26 +42,25 @@ $article = $articleController->getArticleById($_GET["id"]);
                     <?php endif; ?>
                 </div>
 
-
                 <!-- Contenu -->
                 <div class="mb-3">
                     <label for="contenu" class="form-label">Contenu</label>
                     <textarea id="contenu" name="contenu" class="form-control" rows="10" required><?= htmlspecialchars($article['contenu']); ?></textarea>
                 </div>
 
-                
-                          <!-- Champ pour l'auteur de l'article -->
-                          <div class="mb-3">
-                    <label for="article-author" class="form-label">Auteur</label>
-                    <input type="text" class="form-control" name="auteur" id="article-author" placeholder="Entrez le nom de l'auteur" required>
-                </div>
-
-                <!-- Champ pour la date de création -->
+                <!-- Auteur -->
                 <div class="mb-3">
-                    <label for="article-date" class="form-label">Date de création</label>
-                    <input type="date" class="form-control" name="date_creation" id="article-date" value="<?php echo date('Y-m-d'); ?>" required>
+                    <label for="auteur" class="form-label">Auteur</label>
+                    <input type="text" id="auteur" name="auteur" class="form-control" 
+                           value="<?= htmlspecialchars($article['auteur']); ?>" required>
                 </div>
 
+                <!-- Date de création -->
+                <div class="mb-3">
+                    <label for="date_creation" class="form-label">Date de création</label>
+                    <input type="date" id="date_creation" name="date_creation" class="form-control" 
+                           value="<?= htmlspecialchars($article['date_creation']); ?>" required>
+                </div>
 
                 <!-- Boutons -->
                 <button type="submit" class="btn btn-primary">Mettre à jour</button>
@@ -74,3 +74,4 @@ $article = $articleController->getArticleById($_GET["id"]);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
