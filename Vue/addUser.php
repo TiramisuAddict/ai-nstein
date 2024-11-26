@@ -12,7 +12,7 @@
     $gender = $_POST['gender'];
     $background = $_POST['it_background'];
 
-    $user = new User($username, $email, $password, $background, $age, $gender, $education_level, '', '', '', "User",'');
+    $user = new User($username, $email, $password, $background, $age, $gender, $education_level, '', '', '', "User", '', '');
 
     $userController->addUser($user);
 

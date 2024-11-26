@@ -1,18 +1,17 @@
 <?php
-    require_once '../Controller/UserController.php';  
+  require_once '../Controller/UserController.php';  
 
-    $userController = new UserController();
+  $userController = new UserController();
 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+  $email = $_POST['email'];
+  $password = $_POST['password'];
 
-    $result = $userController->loginCheck($email, $password);
+  $result = $userController->loginCheck($email, $password);
 
-    if($result){
-        header('Location: dashboard.php');
-        exit;
-    }
-
+  if($result){
+    header('Location: dashboard.php');
+    exit;
+  }
 ?>
 
 <!doctype html>
@@ -105,7 +104,7 @@
                     <!-- checkbox -->
 
                     <!-- forgot password link -->
-                    <a href="#">
+                    <a href="forgot_password.html">
                       <span>Forgot Password?</span>
                     </a>
                     <!-- forgot password link -->

@@ -12,8 +12,9 @@ class User {
     private $filename;
     private $filedata;
     private $role;
+    private $status;
 
-    public function __construct($username, $email, $pwd, $itbackground, $age, $sexe, $educationlvl, $experience, $filename, $filedata, $role) {
+    public function __construct($username, $email, $pwd, $itbackground, $age, $sexe, $educationlvl, $experience, $filename, $filedata, $role, $status) {
         $this->username = $username;
         $this->email = $email;
         $this->pwd = $pwd;
@@ -25,6 +26,7 @@ class User {
         $this->filename = $filename;
         $this->filedata = $filedata;
         $this->role = $role;
+        $this->status = $status;
     }
 
     public function getId() {
@@ -121,6 +123,14 @@ class User {
 
     public function setRole($role) {
         $this->role = $role;
+    }
+
+    public function getStatus() {
+        return $this->status;
+    }
+
+    public function setStatus($status) {
+        $this->status = $status;
     }
 }
 ?>

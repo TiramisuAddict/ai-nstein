@@ -1,16 +1,11 @@
 <?php
   require_once '../Controller/UserController.php';  
 
-  // Créer une instance de UserController
+  $filter = $_GET['statusFilter'] ?? 'All';
+
   $userController = new UserController();
 
-  // Récupérer tous les utilisateurs
-  $users = $userController->getUser();
-
-  $numberOfMaleUsers = $userController->countMaleUsers();
-  $numberOfFemaleUsers = count($users) - $numberOfMaleUsers;
-  $numberOfExperts = $userController->countExperts();
-  $numberOfUsers = count($users) - $numberOfExperts;
+  $experts = $userController->getFiltredExperts($filter);
 ?>
 
 <!DOCTYPE html>
@@ -47,6 +42,7 @@
 
     <script src="../Dependencies/Template/vendor/js/helpers.js"></script>
     <script src="../Dependencies/Template/js/config.js"></script>
+
   </head>
 
   <body>
@@ -168,111 +164,64 @@
           <!-- Base Content -->
           <div class="content-wrapper">
             <div class="container-xxl flex-grow-1 container-p-y">
+            
+              <div class="card m-4">
+                <form action="expertRequestList.php?<?php echo $_GET['statusFilter'] ?? ''; ?>">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <select class="form-select m-2" name="statusFilter">
+                      <option value="All">All</option>
+                      <option value="Approved" <?php if ($filter == "Approved") echo " selected"; ?> >Approved</option>
+                      <option value="Pending" <?php if ($filter == "Pending") echo " selected"; ?>>Pending</option>
+                      <option value="Rejected" <?php if ($filter == "Rejected") echo " selected"; ?>>Rejected</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary m-2" id="applyFilter">Apply</button>
+                  </div>
+                </form>
+              </div>
 
-							<div class="row m-1">
-
-                <div class="col-lg-3 col-6 mb-1 mt-2">
-									<div class="card h-100">
-										<div class="card-body">
-											<div class="card-title d-flex align-items-start justify-content-between mb-4">
-												<div class="avatar flex-shrink-0">
-													<img
-														src="../Dependencies/img/user.svg"
-														alt="chart success"
-														class="rounded" />
-												</div>
-											</div>
-											<p class="mb-1">Males</p>
-											<h4 class="card-title mb-3 brand-name"><?php echo $numberOfMaleUsers; ?></h4>
-											<small class="fw-medium text-accent"><i class="bx bx-up-arrow-alt "></i> +35.63%</small>
-										</div>
-									</div>
-								</div>
-
-                <div class="col-lg-3 col-6 mb-1 mt-2">
-									<div class="card h-100">
-										<div class="card-body">
-											<div class="card-title d-flex align-items-start justify-content-between mb-4">
-												<div class="avatar flex-shrink-0">
-													<img
-														src="../Dependencies/img/user.svg"
-														alt="chart success"
-														class="rounded" />
-												</div>
-											</div>
-											<p class="mb-1">Females</p>
-											<h4 class="card-title mb-3 brand-name"><?php echo $numberOfFemaleUsers ?></h4>
-											<small class="text-primary fw-medium"><i class="bx bx-up-arrow-alt "></i> +24.63%</small>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-6 mb-1 mt-2">
-									<div class="card h-100">
-										<div class="card-body">
-											<div class="card-title d-flex align-items-start justify-content-between mb-4">
-												<div class="avatar flex-shrink-0">
-													<img
-														src="../Dependencies/img/users.svg"
-														alt="chart success"
-														class="rounded" />
-												</div>
-											</div>
-											<p class="mb-1">Users</p>
-											<h4 class="card-title mb-3 brand-name"><?php echo $numberOfUsers ?></h4>
-											<small class="fw-medium text-accent"><i class="bx bx-up-arrow-alt "></i> +72.80%</small>
-										</div>
-									</div>
-								</div>
-					
-								<div class="col-lg-3 col-6 mb-1 mt-2">
-									<div class="card h-100">
-										<div class="card-body">
-											<div class="card-title d-flex align-items-start justify-content-between mb-4">
-												<div class="avatar flex-shrink-0">
-													<img
-														src="../Dependencies/img/award.svg"
-														alt="wallet info"
-														class="rounded" />
-												</div>
-											</div>
-											<p class="mb-1">Experts</p>
-											<h4 class="card-title mb-3 brand-name"><?php echo $numberOfExperts ?></h4>
-											<small class="text-primary fw-medium"><i class="bx bx-up-arrow-alt"></i> +28.42%</small>
-										</div>
-									</div>
-								</div>
-
-							</div>
-					
 							<div class="card m-4">
 								<div class="table-responsive text-nowrap">
 										<table class="table table-hover">
 											<thead>
 												<tr>
-                          <th>Id</th>
 													<th>Username</th>
+                          <th>Email</th>
                           <th>Age</th>
-													<th>Email</th>
-													<th>Role</th>
-                          <th>Password</th>
-                          <th>Profile</th>
-													<th>Update</th>
-                          <th>Delete</th>
+													<th>Gender</th>
+													<th>Experience</th>
+													<th>Document</th>
+													<th colspan="2">Actions</th>
 												</tr>
 											</thead>
 											<tbody class="table-border-bottom-0">
-                        <?php foreach ($users as $user): ?>
+                        <?php foreach ($experts as $expert): ?>
                           <tr>
-                            <td><?php echo $user['id']; ?></td>
-                            <td><?php echo ($user['username']); ?></td>
-                            <td><?php echo ($user['age']); ?></td>
-                            <td><?php echo ($user['email']); ?></td>
-                            <td><?php echo ($user['role']); ?></td>
-                            <td><?php echo ($user['pwd']); ?></td>
-                            <td><a href="userProfile.php?id=<?php echo $user['id']; ?>"><button class="btn btn-sm btn-outline-info"><i class="bx bx-link-alt"></i> Profile </button></a></td>
-                            <td><a href="updateUser.php?id=<?php echo $user['id']; ?>"><button class="btn btn-sm btn-outline-warning"><i class="bx bx-edit-alt"></i> Edit </button></a></td>
-													  <td><a href="deleteUser.php?id=<?php echo $user['id']; ?>"><button class="btn btn-sm btn-outline-secondary"><i class="bx bx-trash"></i> Delete </button></a></td>
+                            <td><?php echo $expert['username']; ?></td>
+                            <td><?php echo ($expert['email']); ?></td>
+                            <td><?php echo ($expert['age']); ?></td>
+                            <td><?php echo ($expert['sexe']); ?></td>
+                            <td><?php echo ($expert['experience']); ?></td>
+                            <td><a href="downloadFile.php?id=<?php echo $expert['id']; ?>">Download</a></td>
+                            
+                            <td>
+                              <?php 
+                                if($expert['status'] == "Pending") {
+                                  echo '<a href="updateExpertStatus.php?id=' . $expert["id"] . '&status=Approved"> <button class="btn btn-sm btn-outline-success"><i class="bx bx-check"></i> Approve </button></a>';
+                                }else {
+                                  echo '<a href=" '.($expert['status'] == "Rejected" ? '' : 'updateUser.php?id=' . $expert["id"] . '').' "> <button class="btn btn-sm btn-outline-warning" ' . ($expert['status'] == "Rejected" ? 'disabled' : '') . '><i class="bx bx-edit-alt"></i> Edit </button></a>';
+                                }
+                              ?>
+                            </td>
+
+                            <td>
+                              <?php 
+                                if($expert['status'] == "Pending") {
+                                  echo '<a href="updateExpertStatus.php?id=' . $expert["id"] . '&status=Rejected"> <button class="btn btn-sm btn-outline-danger"><i class="bx bx-x"></i> Reject </button></a>';
+                                }else {
+                                  echo '<a href="deleteExpert.php?id=' . $expert["id"] . '"> <button class="btn btn-sm btn-outline-secondary"><i class="bx bx-trash"></i> Delete </button></a>';
+                                }
+                              ?>
+                            </td>
                           </tr>
                         <?php endforeach; ?>
 											</tbody>

@@ -10,14 +10,12 @@
     $age = $_POST['age'];
     $gender = $_POST['gender'];
     $experience = $_POST['experience'];
-
     $proof = $_POST['proof'];
 
-    $user = new User($username, $email, $password, '', $age, $gender, '', $experience, '', $proof, "Expert",''); //if it works don't touch it
+    $user = new User($username, $email, $password, '', $age, $gender, '', $experience, '', $proof, "Expert", 'Pending');
 
     $userController->addUser($user);
 
     header('Location: dashboard.php');
-
     exit;
 ?>

@@ -3,29 +3,27 @@ require_once '../Config.php';
 require_once '../Model/User.php';
 
 class UserController {
-    // Récupérer tous les utilisateurs
+
     public function getUser() {
-        $conn = config::getConnexion(); // Connexion à la base de données
+        $conn = config::getConnexion();
 
         $sql = "SELECT * FROM users";
 
         try {
-            $query = $conn->prepare($sql); // Préparation de la requête
-            $query->execute(); // Exécution de la requête
-            return $query->fetchAll(); // Retourne tous les résultats
+            $query = $conn->prepare($sql);
+            $query->execute();
+            return $query->fetchAll();
         } catch (Exception $e) {
-            die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
+            die('Erreur: ' . $e->getMessage());
         }
     }
 
-    // Ajouter un utilisateur
     public function addUser($user) {
-        $conn = config::getConnexion(); // Connexion à la base de données
-        $sql = "INSERT INTO users (username, email, pwd, itbackground, age, sexe, educationlvl, experience, filename, filedata, role, cdate)
-            VALUES (:username, :email, :pwd, :itbackground, :age, :sexe, :educationlvl, :experience, :filename, :filedata, :role, :cdate)";
-
+        $conn = config::getConnexion();
+        $sql = "INSERT INTO users (username, email, pwd, itbackground, age, sexe, educationlvl, experience, filename, filedata, role, cdate, status)
+            VALUES (:username, :email, :pwd, :itbackground, :age, :sexe, :educationlvl, :experience, :filename, :filedata, :role, :cdate, :status)";
         try {
-            $query = $conn->prepare($sql); // Préparation de la requête(optional)
+            $query = $conn->prepare($sql);
             $query->execute([
                 ':username' => $user->getUsername(),
                 ':email' => $user->getEmail(),
@@ -35,17 +33,17 @@ class UserController {
                 ':sexe' => $user->getSexe(),
                 ':educationlvl' => $user->getEducationlvl(),
                 ':experience' => $user->getExperience(),
-                ':filename' => $user->getFiledata(),
+                ':filename' => $user->getFilename(), // Corrected this line
                 ':filedata' => $user->getFiledata(),
                 ':role' => $user->getRole(),
-                ':cdate' => date('Y-m-d')
-            ]); // Exécution avec les valeurs du nouvel utilisateur
+                ':cdate' => date('Y-m-d'),
+                ':status' => $user->getStatus()
+            ]);
         } catch (Exception $e) {
-            die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
+            die('Erreur: ' . $e->getMessage());
         }
     }
 
-    // Mettre à jour un utilisateur
     public function updateUser($id,$user){
         $conn = config::getConnexion();
         $sql = "UPDATE users SET username = :username, email = :email, itbackground = :itbackground, age = :age,
@@ -63,7 +61,7 @@ class UserController {
                 ':educationlvl' => $user["educationlvl"]
             ]);
          } catch (Exception $e) {
-            die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
+            die('Erreur: ' . $e->getMessage());
         }
     }
 
@@ -82,12 +80,10 @@ class UserController {
                 ':experience' => $user["experience"]
             ]);
          } catch (Exception $e) {
-            die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
+            die('Erreur: ' . $e->getMessage());
         }
     }
     
-
-    // Supprimer un utilisateur
    public function deleteUser($id){
         $conn = config::getConnexion();
         $sql="DELETE FROM users WHERE id = :id";
@@ -96,10 +92,9 @@ class UserController {
             $query->execute([':id'=>$id]);
         }
         catch (Exception $e) {
-            die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
+            die('Erreur: ' . $e->getMessage());
         }
    }
-
 
     public function getUserById($id){
         $conn = config::getConnexion();
@@ -116,32 +111,32 @@ class UserController {
     // ============================================================================== //
 
     public function countMaleUsers() {
-        $conn = config::getConnexion(); // Connexion à la base de données
+        $conn = config::getConnexion();
 
         $sql = "SELECT count(*) FROM `users` WHERE sexe='Male'";
 
         try {
-            $query = $conn->prepare($sql); // Préparation de la requête
-            $query->execute(); // Exécution de la requête
-            $result = $query->fetch(); // Récupération du résultat
-            return $result['count(*)']; // Retourne le nombre d'utilisateurs masculins
+            $query = $conn->prepare($sql);
+            $query->execute();
+            $result = $query->fetch();
+            return $result['count(*)'];
         } catch (Exception $e) {
-            die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
+            die('Erreur: ' . $e->getMessage());
         }
     }
 
     public function countExperts() {
-        $conn = config::getConnexion(); // Connexion à la base de données
+        $conn = config::getConnexion();
 
         $sql = "SELECT count(*) FROM `users` WHERE role='Expert'";
 
         try {
-            $query = $conn->prepare($sql); // Préparation de la requête
-            $query->execute(); // Exécution de la requête
-            $result = $query->fetch(); // Récupération du résultat
-            return $result['count(*)']; // Retourne le nombre d'utilisateurs masculins
+            $query = $conn->prepare($sql);
+            $query->execute();
+            $result = $query->fetch();
+            return $result['count(*)'];
         } catch (Exception $e) {
-            die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
+            die('Erreur: ' . $e->getMessage());
         }
     }
 
@@ -155,6 +150,53 @@ class UserController {
             $query->execute();
             return $query->fetchAll();
         } catch (Exception $e) {
+            die('Erreur: ' . $e->getMessage());
+        }
+    }
+
+    public function getExpert(){
+        $conn = config::getConnexion();
+
+        $sql = "SELECT * FROM users WHERE role='Expert'";
+
+        try {
+            $query = $conn->prepare($sql);
+            $query->execute();
+            return $query->fetchAll();
+        } catch (Exception $e) {
+            die('Erreur: ' . $e->getMessage());
+        }
+    }
+
+    public function getFiltredExperts($filter) {
+        if ($filter == 'All') {
+            return $this->getExpert();
+        }else {
+            $conn = config::getConnexion();
+
+            $sql = "SELECT * FROM users WHERE role='Expert' AND status='$filter'";
+
+            try {
+                $query = $conn->prepare($sql);
+                $query->execute();
+                return $query->fetchAll();
+            } catch (Exception $e) {
+                die('Erreur: ' . $e->getMessage());
+            }
+        }
+    }
+
+    public function setStatus($id,$status){
+        $conn = config::getConnexion();
+        $sql = "UPDATE users SET status = :status WHERE id = :id";
+
+        try{
+            $query=$conn->prepare($sql);
+            $query->execute([
+                ':id'=>$id,
+                ':status' => $status
+            ]);
+         } catch (Exception $e) {
             die('Erreur: ' . $e->getMessage());
         }
     }
