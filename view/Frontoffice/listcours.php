@@ -68,6 +68,9 @@ $list = $coursC->listCours();
           <a class="nav-link" href="listcours.php">Courses</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="listseance.php">Seances</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="blog.html">Blog</a>
         </li>
         <li class="nav-item">
@@ -109,101 +112,7 @@ $list = $coursC->listCours();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Liste des Cours</title>
-  <style>
-      /* Style général du body pour une présentation moderne */
-      body {
-          font-family: 'Arial', sans-serif;
-          background-color: #f4f6f9;
-          margin: 0;
-          padding: 0;
-      }
-
-      /* Entête de la page avec un fond éducatif */
-      h1 {
-          font-size: 2em;
-          color: #2e3a59;
-      }
-
-      /* Container pour centrer le contenu */
-      .container {
-          max-width: 1200px;
-          margin: 50px auto;
-          padding: 20px;
-          background-color: white;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-          border-radius: 8px;
-      }
-
-      /* Style pour le tableau */
-      .table {
-          width: 100%;
-          border-collapse: collapse;
-          margin-top: 30px;
-      }
-
-      .table th,
-      .table td {
-          padding: 15px;
-          text-align: center;
-          border: 1px solid #ddd;
-      }
-
-      .table th {
-          background-color: #4CAF50;
-          color: white;
-      }
-
-      .table tr:nth-child(even) {
-          background-color: #f2f2f2;
-      }
-
-      /* Boutons de style */
-      .btn {
-          padding: 8px 20px;
-          font-size: 14px;
-          text-decoration: none;
-          border-radius: 5px;
-          transition: background-color 0.3s;
-      }
-
-      .btn-primary {
-          background-color: #007bff;
-          color: white;
-      }
-
-      .btn-warning {
-          background-color: #ffc107;
-          color: white;
-      }
-
-      .btn-danger {
-          background-color: #dc3545;
-          color: white;
-      }
-
-      .btn:hover {
-          opacity: 0.8;
-      }
-
-      /* Pour l'image */
-      .table img {
-          max-width: 80px;
-          height: auto;
-          border-radius: 5px;
-      }
-
-      /* Style pour les liens et le bouton d'ajout */
-      .d-flex {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 20px;
-      }
-
-      .d-flex .btn {
-          font-size: 16px;
-      }
-  </style>
+  
 </head>
 
 
@@ -214,65 +123,74 @@ $list = $coursC->listCours();
 
 
 
-
-
-
-
 <body>
-  <div class="container">
-      <!-- Entête de page avec boutons pour ajouter un cours -->
-      <div class="d-flex">
-          <h1>Liste des Cours</h1>
-          <div>
-              <a href="addCours.php" class="btn btn-primary">Ajouter un Cours</a>
-          </div>
+  <div class="container my-5">
+      <!-- En-tête de page -->
+      <div class="text-center mb-5">
+          <h1 class="text-primary">Liste des Cours</h1>
       </div>
 
-      <!-- Tableau des cours -->
-      <div class="table-responsive">
-          <table class="table">
-              <thead>
-                  <tr>
-                      <th>ID Utilisateur</th>
-                      <th>Nom Matière</th>
-                      <th>Date de Publication</th>
-                      <th>Type</th>
-                      <th>Image</th>
-                      <th>Modifier</th>
-                      <th>Supprimer</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <?php
-                  // Boucle pour afficher chaque cours dans le tableau
-                  foreach ($list as $cours) {
-                  ?>
-                      <tr>
-                          <td><?= htmlspecialchars($cours['id_user']); ?></td>
-                          <td><?= htmlspecialchars($cours['nom_matiere']); ?></td>
-                          <td><?= htmlspecialchars($cours['date_pub']); ?></td>
-                          <td><?= htmlspecialchars($cours['type']); ?></td>
-                          <td>
-                              <!-- Affichage de l'image avec une taille maximale -->
-                              <img src="<?= htmlspecialchars($cours['image']); ?>" alt="Image de <?= htmlspecialchars($cours['nom_matiere']); ?>">
-                          </td>
-                          <td>
-                              <!-- Lien vers la page de modification du cours -->
-                              <a href="updatecours.php?id=<?= $cours['id_matiere']; ?>" class="btn btn-warning">Modifier</a>
-                          </td>
-                          <td>
-                              <!-- Lien de suppression avec confirmation -->
-                              <a href="deleteCours.php?id_matiere=<?= htmlspecialchars($cours['id_matiere']); ?>" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce cours ?');">Supprimer</a>
-                          </td>
-                      </tr>
-                  <?php
-                  }
-                  ?>
-              </tbody>
-          </table>
+      <!-- Affichage des cours sous forme de cartes -->
+      <div class="row">
+          <?php
+          // Boucle pour afficher chaque cours sous forme de carte
+          foreach ($list as $cours) {
+          ?>
+              <div class="col-md-4 mb-4">
+                  <div class="card shadow-lg course-card">
+                      <!-- Image du cours -->
+                      <div class="course-img-wrapper">
+                          <img src="<?= htmlspecialchars($cours['image']); ?>" 
+                               class="card-img-top course-img" 
+                               alt="Image de <?= htmlspecialchars($cours['nom_matiere']); ?>" 
+                               style="height: 200px; object-fit: cover;">
+                      </div>
+                      
+                      <!-- Contenu de la carte -->
+                      <div class="card-body">
+                          <h5 class="card-title text-center"><?= htmlspecialchars($cours['nom_matiere']); ?></h5>
+                          <p class="card-text">
+                              <strong>ID Utilisateur :</strong> <?= htmlspecialchars($cours['id_user']); ?><br>
+                              <strong>Date de Publication :</strong> <?= htmlspecialchars($cours['date_pub']); ?><br>
+                              <strong>Type :</strong> <?= htmlspecialchars($cours['type']); ?>
+                          </p>
+                      </div>
+                  </div>
+              </div>
+          <?php
+          }
+          ?>
       </div>
   </div>
+
+  <!-- Styles pour les animations -->
+  <style>
+      /* Animation de la carte */
+      .course-card {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .course-card:hover {
+          transform: translateY(-10px); /* La carte "monte" légèrement */
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Ombre plus intense */
+      }
+
+      /* Animation de l'image */
+      .course-img-wrapper {
+          overflow: hidden; /* Masquer les débordements */
+      }
+
+      .course-img {
+          transition: transform 0.3s ease;
+      }
+
+      .course-card:hover .course-img {
+          transform: scale(1.1); /* Zoom léger sur l'image */
+      }
+  </style>
 </body>
+
+
 
 
 
