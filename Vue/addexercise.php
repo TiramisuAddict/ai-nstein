@@ -14,10 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     ];
 
     $exerciceController = new exerciceController();
-
     $exerciceController->addexercise($exercise);
-
     echo "Exercise added successfully!";
+    header("Location: UpDel.php");
     exit;
 }
 ?>

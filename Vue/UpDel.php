@@ -1,6 +1,7 @@
 <?php
 require_once '../Controller/exerciceController.php';
 require_once '../Controller/delete_ex.php';
+
 $controller = new exerciceController();
 $exercises = $controller->getExercises(); 
 ?>
@@ -54,7 +55,7 @@ $exercises = $controller->getExercises();
 
 
 </head>
-<div class="card" style="max-width: 850px; margin: 60px auto; text-align: center;">
+<div class="card" style="max-width: 950px; margin: 60px auto; text-align: center;">
     <h5 class="card-header">Your Projects Overview</h5>
     <div class="table-responsive text-nowrap">
       <table class="table table-hover">
@@ -63,6 +64,7 @@ $exercises = $controller->getExercises();
             <th>Project Name</th>
             <th>Username</th>
             <th>Difficulty Level</th>
+            <th>Date Created</th>
             <th>Edit</th>
             <th>Delete</th>
           </tr>
@@ -77,6 +79,7 @@ $exercises = $controller->getExercises();
                 echo '<td>' . htmlspecialchars($exercise['title']) . '</td>';
                 echo '<td>' . htmlspecialchars($exercise['author_name']) . '</td>'; 
                 echo '<td>' . htmlspecialchars($exercise['difficulty_level']) . '</td>';
+                echo '<td>' . htmlspecialchars($exercise['date_creation']) . '</td>';
                 echo '<td>';
                 echo '<a href="../Controller/edit_ex.php?id=' . $exercise['id'] . ' "class="btn btn-sm btn-outline-warning" role="button"><i class="bx bx-edit-alt"></i> Edit </a>'; 
                 //echo '<a href="edit_ex.php?id=' . $exercise['id'] . '" class="btn btn-sm btn-outline-primary">';
