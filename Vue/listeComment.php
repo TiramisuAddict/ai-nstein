@@ -1,11 +1,11 @@
 <?php
-require_once '../Controller/ArticleController.php';  
+require_once '../Controller/commentController.php';  
 
-// Créer une instance de articleController
-$articleController = new ArticleController();
+// Créer une instance de CommentaireController
+$commentController = new CommentaireController();
 
-// Récupérer tous les utilisateurs
-$articles = $articleController->getArticles();
+// Récupérer tous les commentaires
+$commentaires = $commentController->getCommentaires();
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +13,7 @@ $articles = $articleController->getArticles();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des articles</title>
+    <title>Liste des commentaires</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -113,66 +113,30 @@ $articles = $articleController->getArticles();
 </head>
 <body>
     <div>
-
-
-<!-- Side Menu -->
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-          <!-- logo -->
-          <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
-              <span class="app-brand-logo demo">
-                <img src="assets/img/elements/logo.svg" alt="ainstein logo" width="120"/>
-              </span>
-            </a>
-
-            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-              <i class="bx bx-chevron-left bx-sm d-flex align-items-center justify-content-center"></i>
-            </a>
-          </div>
-          <!-- logo -->
-
-         
-        </aside>
-        <!-- Side Menu -->
-
-
-
-
-
-
-
-        <h1>Liste des articles</h1>
+        <h1>Liste des commentaires</h1>
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Titre</th>
-                    <th>Contenu</th>
-                    <th>Image</th>
+                    <th>ID Article</th>
+                    <th>Message</th>
                     <th>Auteur</th>
-                    <th>Date de création</th>
+                    <th>Date de Publication</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($articles as $article): ?>
+                <?php foreach ($commentaires as $commentaire): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($article['id']); ?></td>
-                        <td><?php echo htmlspecialchars($article['titre']); ?></td>
-                        <td><?php echo htmlspecialchars($article['contenu']); ?></td>
+                        <td><?php echo htmlspecialchars($commentaire['id']); ?></td>
+                        <td><?php echo htmlspecialchars($commentaire['article_id']); ?></td>
+                        <td><?php echo htmlspecialchars($commentaire['message']); ?></td>
+                        <td><?php echo htmlspecialchars($commentaire['auteur']); ?></td>
+                        <td><?php echo htmlspecialchars($commentaire['date_publication']); ?></td>
                         <td>
-                            <?php if (!empty($article['image'])): ?>
-                                <img src="uploads/<?php echo htmlspecialchars($article['image']); ?>" alt="Image" style="max-width: 100px; max-height: 100px;">
-                            <?php else: ?>
-                                Aucune image
-                            <?php endif; ?>
-                        </td>
-                        <td><?php echo htmlspecialchars($article['auteur']); ?></td>
-                        <td><?php echo htmlspecialchars($article['date_creation']); ?></td>
-                        <td>
-                            <a class="delete-btn" href="deleteArticle.php?id=<?php echo $article['id']; ?>" 
-                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?')">Supprimer</a>
-                            <a class="update-btn" href="expertamodifier.php?id=<?php echo $article['id']; ?>">Modifier</a>
+                            <a class="delete-btn" href="deleteCommentaire.php?id=<?php echo $commentaire['id']; ?>" 
+                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">Supprimer</a>
+                            <a class="update-btn" href="modifierCommentaire.php?id=<?php echo $commentaire['id']; ?>">Modifier</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
