@@ -2,7 +2,6 @@
 require_once '../Config.php';
 
 class ExerciceController {
-    // Fetch all exercises
     public function getExercises() {
         $conn = config::getConnexion();
         $sql = "SELECT * FROM exercises";
@@ -10,13 +9,11 @@ class ExerciceController {
         try {
             $query = $conn->prepare($sql);
             $query->execute();
-            return $query->fetchAll(); // Return all rows
+            return $query->fetchAll();
         } catch (Exception $e) {
             die('Erreur: ' . $e->getMessage());
         }
     }
-
-    // Add a new exercise
     public function addExercise($exercise) {
         $conn = config::getConnexion();
         $sql = "INSERT INTO exercises (title, description, difficulty_level, project_file, image, author_name) 
@@ -36,8 +33,6 @@ class ExerciceController {
             die('Erreur: ' . $e->getMessage());
         }
     }
-
-    // Update an existing exercise
     public function updateExercise($id, $exercise) {
         $conn = config::getConnexion();
         $sql = "UPDATE exercises 
@@ -60,8 +55,6 @@ class ExerciceController {
             die('Erreur: ' . $e->getMessage());
         }
     }
-
-    // Delete an exercise
     public function deleteExercise($id) {
         $conn = config::getConnexion();
         $sql = "DELETE FROM exercises WHERE id = :id";
@@ -73,8 +66,6 @@ class ExerciceController {
             die('Erreur: ' . $e->getMessage());
         }
     }
-
-    // Fetch a single exercise by ID
     public function getExerciseById($id) {
         $conn = config::getConnexion();
         $sql = "SELECT * FROM exercises WHERE id = :id";
@@ -82,7 +73,7 @@ class ExerciceController {
         try {
             $query = $conn->prepare($sql);
             $query->execute([':id' => $id]);
-            return $query->fetch(); // Return single row
+            return $query->fetch(); 
         } catch (Exception $e) {
             die('Erreur: ' . $e->getMessage());
         }

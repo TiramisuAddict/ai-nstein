@@ -22,21 +22,11 @@ $exercises = $controller->getExercises();
       rel="stylesheet" />
 
     <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
-
-    <!-- Core CSS -->
     <link rel="stylesheet" href="assets/vendor/css/core.css" class="template-customizer-core-css" />
     <link rel="stylesheet" href="assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="assets/css/demo.css" />
-
-    <!-- Vendors CSS -->
     <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-
-    <!-- Page CSS -->
-
-    <!-- Helpers -->
     <script src="assets/vendor/js/helpers.js"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="assets/js/config.js"></script>
     <style>
       .custom-delete-btn 
@@ -52,8 +42,6 @@ $exercises = $controller->getExercises();
       color: white;
       }
     </style>
-
-
 </head>
 <div class="card" style="max-width: 950px; margin: 60px auto; text-align: center;">
     <h5 class="card-header">Your Projects Overview</h5>
@@ -82,7 +70,6 @@ $exercises = $controller->getExercises();
                 echo '<td>' . htmlspecialchars($exercise['date_creation']) . '</td>';
                 echo '<td>';
                 echo '<a href="../Controller/edit_ex.php?id=' . $exercise['id'] . ' "class="btn btn-sm btn-outline-warning" role="button"><i class="bx bx-edit-alt"></i> Edit </a>'; 
-                //echo '<a href="edit_ex.php?id=' . $exercise['id'] . '" class="btn btn-sm btn-outline-primary">';
                 echo '</td>';
                 echo '<td>';
                 echo '<form method="POST" action="../Controller/delete_ex.php">';

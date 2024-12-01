@@ -1,52 +1,44 @@
 <?php
 require_once '../Config.php';
-
-$pdo = config::getConnexion();
-$query = "SELECT title, description, difficulty_level, image, date_creation FROM exercises ORDER BY date_creation  DESC";
-$stmt = $pdo->prepare($query);
-$stmt->execute();
-$projects = $stmt->fetchAll();
+require_once '../Model/exercice.php';
+try {
+    $pdo = config::getConnexion(); 
+    $query = "SELECT id, title, description, difficulty_level, image, date_creation FROM exercises ORDER BY date_creation DESC";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) 
+{
+    die("Error: " . $e->getMessage()); 
+}
+if (!$projects) {
+    echo "No projects found.";
+    exit;
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exercises - Front Office</title>
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-      rel="stylesheet" />
-    <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
-    <link rel="stylesheet" href="assets/vendor/css/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="assets/css/demo.css" />
-    <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-    <script src="assets/vendor/js/helpers.js"></script>
-    <script src="assets/js/config.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <!-- theme meta -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <meta name="theme-name" content="agen" />
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
-  <!-- slick slider -->
-  <link rel="stylesheet" href="plugins/slick/slick.css">
-  <!-- themefy-icon -->
+  <title>Exercises - Front Office</title>
+  <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
   <link rel="stylesheet" href="plugins/themify-icons/themify-icons.css">
-  <!-- venobox css -->
+  <link rel="stylesheet" href="assets/vendor/css/core.css" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="assets/css/demo.css" />
+  <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="plugins/slick/slick.css">
   <link rel="stylesheet" href="plugins/venobox/venobox.css">
-  <!-- card slider -->
   <link rel="stylesheet" href="plugins/card-slider/css/style.css">
-  <!-- Main Stylesheet -->
-  <link href="css/style.css" rel="stylesheet">
-  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
     <style>
         .card {
             cursor: pointer;
@@ -71,8 +63,6 @@ $projects = $stmt->fetchAll();
     </style>
 </head>
 <body>
-  
-
 <header class="navigation fixed-top">
   <nav class="navbar navbar-expand-lg navbar-dark">
   <a class="navbar-brand" href="exercices.php" style="margin-left: 0; padding: 0;">
@@ -149,8 +139,8 @@ $projects = $stmt->fetchAll();
           <?php if ($projects): ?>
               <?php foreach ($projects as $project): ?>
                   <div class="col-md-5">
-                      <a href="upload.php" class="text-decoration-none text-dark">
-                          <div class="card d-flex">
+                  <a href="upload.php?exercise_id=<?= htmlspecialchars($project['id']) ?>" class="card-link">                          
+                    <div class="card d-flex">
                               <img class="card-img-top" src="data:image/jpeg;base64,<?= base64_encode($project['image']) ?>" alt="Project image">
                               <div class="card-body">
                                   <h5 class="card-title"><?= htmlspecialchars($project['title']) ?></h5>
@@ -163,7 +153,7 @@ $projects = $stmt->fetchAll();
                                   </p>
                               </div>
                           </div>
-                      </a>
+                  </a>
                   </div>
               <?php endforeach; ?>
           <?php else: ?>
@@ -173,7 +163,7 @@ $projects = $stmt->fetchAll();
   </div>
 
   <!-- footer -->
-<footer class="bg-secondary position-relative">
+<footer class="bg-secondary position-relative" style="margin-top: 30px;">
   <img src="images/backgrounds/map.png" class="img-fluid overlay-image" alt="">
   <div class="section">
     <div class="container">
