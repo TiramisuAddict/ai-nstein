@@ -134,9 +134,9 @@ $commentaires = $commentController->getCommentaires();
                         <td><?php echo htmlspecialchars($commentaire['auteur']); ?></td>
                         <td><?php echo htmlspecialchars($commentaire['date_publication']); ?></td>
                         <td>
-                            <a class="delete-btn" href="deleteCommentaire.php?id=<?php echo $commentaire['id']; ?>" 
+                            <a class="delete-btn" href="deleteComment.php?id=<?php echo $commentaire['id']; ?>" 
                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">Supprimer</a>
-                            <a class="update-btn" href="modifierCommentaire.php?id=<?php echo $commentaire['id']; ?>">Modifier</a>
+                            <a class="update-btn" href="commentamodifier.php?id=<?php echo $commentaire['id']; ?>">Modifier</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

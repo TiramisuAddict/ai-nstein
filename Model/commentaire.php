@@ -57,7 +57,7 @@ class Commentaire {
     }
 
     // Méthode pour mettre à jour un commentaire
-    public function updateCommentaire($id, $message, $date_publication, $auteur, $article_id) {
+    public function updateComment($id, $message, $date_publication, $auteur, $article_id) {
         $sql = "UPDATE commentaires 
                 SET message = :message, 
                     date_publication = :date_publication, 

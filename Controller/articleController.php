@@ -32,32 +32,40 @@ class ArticleController {
     }
 
     // Mettre à jour un article
-    public function updateArticle($id, $title, $contenu, $author, $image = null) {
-        $date_creation = date('Y-m-d');  // Assurer que la date de création est mise à jour
-
-        // Si une image est fournie
-        if ($image) {
-            $stmt = $this->pdo->prepare("UPDATE articles SET titre = :titre, contenu = :contenu,  image = :image, auteur = :auteur, date_creation = :date_creation WHERE id = :id"); 
-            $stmt->execute([
-                'id' => $id,
-                'titre' => $title,
-                'contenu' => $contenu,
-                'image' => $image,
-                'auteur' => $author,
-                'date_creation' => $date_creation
-            ]);
-        } else {
-            // Si aucune image n'est fournie
-            $stmt = $this->pdo->prepare("UPDATE articles SET titre = :titre, contenu = :contenu, auteur = :auteur, date_creation = :date_creation WHERE id = :id"); 
-            $stmt->execute([
-                'id' => $id,
-                'titre' => $title,
-                'contenu' => $contenu,
-                'auteur' => $author,
-                'date_creation' => $date_creation
-            ]);
+    public function updateArticle($id, $titre, $contenu, $auteur, $date_creation, $image = null) {
+        $db = config::getConnexion();
+    
+        try {
+            $query = "
+                UPDATE articles 
+                SET titre = :titre, contenu = :contenu, auteur = :auteur, date_creation = :date_creation";
+    
+            if ($image) {
+                $query .= ", image = :image";
+            }
+    
+            $query .= " WHERE id = :id";
+    
+            $stmt = $db->prepare($query);
+    
+            $params = [
+                ':id' => $id,
+                ':titre' => $titre,
+                ':contenu' => $contenu,
+                ':auteur' => $auteur,
+                ':date_creation' => $date_creation
+            ];
+    
+            if ($image) {
+                $params[':image'] = $image;
+            }
+    
+            return $stmt->execute($params);
+        } catch (PDOException $e) {
+            throw new Exception("Erreur lors de la mise à jour : " . $e->getMessage());
         }
     }
+    
 
     // Ajouter un nouvel article avec une image
     public function addArticle($article) {

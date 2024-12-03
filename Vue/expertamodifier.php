@@ -22,7 +22,7 @@ $article = $articleController->getArticleById($_GET["id"]);
 
     <div class="card">
         <div class="card-body">
-            <form action="update_article.php" method="POST" enctype="multipart/form-data">
+            <form action="updateArticle.php" method="POST" enctype="multipart/form-data">
                 <!-- ID caché -->
                 <input type="hidden" name="id" value="<?= htmlspecialchars($article['id']); ?>">
 
