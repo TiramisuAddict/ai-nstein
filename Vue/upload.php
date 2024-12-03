@@ -1,6 +1,19 @@
 <?php
 require_once '../Config.php';
 $pdo = config::getConnexion();
+$EditMode = false;
+$deposit = null;
+if (isset($_GET['id_depot'])) {
+    $EditMode = true;
+    $id_depot = $_GET['id_depot'];
+    $stmt = $pdo->prepare("SELECT * FROM depot WHERE id_depot = :id_depot");
+    $stmt->execute(['id_depot' => $id_depot]);
+    $deposit = $stmt->fetch();
+    if (!$deposit) {
+        header("Location: show_dep.php");
+        exit();
+    }
+}
 if (isset($_GET['exercise_id'])) {
     $exercise_id = $_GET['exercise_id'];
     $stmt = $pdo->prepare("SELECT * FROM exercises WHERE id = :exercise_id");
@@ -10,10 +23,7 @@ if (isset($_GET['exercise_id'])) {
         header("Location: exercices.php");
         exit();
     }
-} else {
-    header("Location: exercices.php");
-    exit();
-}
+} 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,20 +43,25 @@ if (isset($_GET['exercise_id'])) {
   <script src="assets/js/config.js"></script>
 </head>
 <body>
-  <div class="container" style="max-width: 600px; margin: 50px auto; text-align: center;">
-    <h1 class="mb-4">Upload Your Work</h1>
+<div class="container" style="max-width: 600px; margin: 50px auto; text-align: center;">
+    <h1 class="mb-4"><?= $EditMode ? 'Edit Your Upload' : 'Upload Your Work' ?></h1>
     <div class="card">
       <div class="card-body">
         <form action="upload_process.php" method="POST" enctype="multipart/form-data">
-        <div class="mb-4">
-            <label for="formFileMultiple" class="form-label"> Select your file:</label>
+          <div class="mb-4">
+            <label for="formFileMultiple" class="form-label">Select your file:</label>
             <input class="form-control" type="file" id="formFileMultiple" name="project_file" required />
-            <input type="hidden" name="exercise_id" value="<?= htmlspecialchars($exercise_id) ?>">
-        </div>
+            <?php if ($EditMode): ?>
+              <input type="hidden" name="id_depot" value="<?= htmlspecialchars($id_depot) ?>">
+            <?php endif; ?>
+            <?php if (!$EditMode && isset($exercise_id)): ?>
+              <input type="hidden" name="exercise_id" value="<?= htmlspecialchars($exercise_id) ?>">
+            <?php endif; ?>
+          </div>
 
           <button type="submit" name="submit" class="btn rounded-pill btn-warning">
             <img src="assets/img/elements/arrow.png" alt="Ring Icon" style="width: 20px; margin-right: 8px;">
-            <span class="tf-icons bx bx-upload me-2"></span>Submit
+            <span class="tf-icons bx bx-upload me-2"></span><?= $EditMode ? 'Update' : 'Submit' ?>
           </button>
         </form>
       </div>
@@ -57,9 +72,8 @@ if (isset($_GET['exercise_id'])) {
     </div>
   </div>
   <script>
-    document.querySelector('form').addEventListener('submit', function (e) 
-    {
-      document.getElementById('successMessage').style.display = 'block'; 
+      document.querySelector('form').addEventListener('submit', function (e) {
+      document.getElementById('successMessage').style.display = 'block';
     });
   </script>
 </body>

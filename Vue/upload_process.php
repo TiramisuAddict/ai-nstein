@@ -1,40 +1,45 @@
 <?php
 require_once '../Config.php';
-require_once '../Model/Depot.php';
-$pdo = config::getConnexion();
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exercise_id']) && isset($_FILES['project_file'])) {
-    $exercise_id = $_POST['exercise_id'];
-    $stmt = $pdo->prepare("SELECT * FROM exercises WHERE id = :exercise_id");
-    $stmt->execute(['exercise_id' => $exercise_id]);
-    $exercise = $stmt->fetch();
-    if (!$exercise) {
-        die("Error: Exercise not found.");
+require_once '../Controller/depositController.php';
+$depositController = new depositController();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Check if this is an update or a new deposit
+    $id_depot = isset($_POST['id_depot']) ? $_POST['id_depot'] : null;
+    $exercise_id = isset($_POST['exercise_id']) ? $_POST['exercise_id'] : null;
+    $uploadedFile = isset($_FILES['project_file']) ? $_FILES['project_file'] : null;
+
+    if (!$uploadedFile || $uploadedFile['error'] !== UPLOAD_ERR_OK) {
+        die("Error: File upload error. Please try again.");
     }
-    $uploadedFile = $_FILES['project_file'];
-    if ($uploadedFile['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = __DIR__ . '/uploads/';
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
+    $uploadDir = '/dashboard/exercises/Vue/uploads/';
+    $physicalUploadDir = $_SERVER['DOCUMENT_ROOT'] . $uploadDir; 
+    if (!is_dir($physicalUploadDir)) {
+        mkdir($physicalUploadDir, 0777, true);
+    }
+    $fileName = time() . '_' . basename($uploadedFile['name']);
+    $fileFullPath = $physicalUploadDir . $fileName; // Physical path for server storage
+    $filePath = $uploadDir . $fileName; // URL-accessible path for the browser
 
-        $filePath = $uploadDir . basename($uploadedFile['name']);
-        if (move_uploaded_file($uploadedFile['tmp_name'], $filePath)) {
-            $depot = new Depot($exercise_id, date('Y-m-d'), $filePath);
-            $stmt = $pdo->prepare("INSERT INTO depot (exercise_id, deposit_date , uploaded_file) VALUES (:exercise_id, :deposit_date, :uploaded_file)");
-            $stmt->execute([
-                'exercise_id' => $depot->getExerciseId(),
-                'deposit_date' => $depot->getDepositDate(),
-                'uploaded_file' => $depot->getUploadedFile()
-            ]);
+    // Move the uploaded file to the uploads directory
+    if (!move_uploaded_file($uploadedFile['tmp_name'], $fileFullPath)) {
+        die("Error: Failed to save the uploaded file.");
+    }
 
-            header("Location: exercices.php");
-            exit();
-        } else {
-            die("Error: Failed to move the uploaded file.");
-        }
+    if ($id_depot) {
+        $depositController->updateDepositFile($id_depot, $filePath);
+    } elseif ($exercise_id) {
+        $deposit = [
+            'exercise_id' => $exercise_id,
+            'deposit_date' => date('Y-m-d'),
+            'uploaded_file' => $filePath,
+        ];
+        $depositController->addDeposit($deposit);
     } else {
-        die("Error: File upload error.");
+        die("Error: Invalid request. No valid ID provided.");
     }
+    header("Location: show_dep.php");
+    exit();
 } else {
-    die("Invalid request.");
+    die("Error: Invalid request method.");
 }

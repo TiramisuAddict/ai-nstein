@@ -22,7 +22,7 @@ class DepositController {
         $conn = config::getConnexion();
         $sql = "INSERT INTO depot (exercise_id, deposit_date, uploaded_file) 
                 VALUES (:exercise_id, :deposit_date, :uploaded_file)";
-
+    
         try {
             $query = $conn->prepare($sql);
             $query->execute([
@@ -33,21 +33,14 @@ class DepositController {
         } catch (Exception $e) {
             die('Erreur: ' . $e->getMessage());
         }
-    }
-    public function updateDeposit($id, $deposit) {
+    }    
+    public function updateDepositFile($id_depot, $newFilePath) {
         $conn = config::getConnexion();
-        $sql = "UPDATE depot 
-                SET exercise_id = :exercise_id, deposit_date = :deposit_date, uploaded_file = :uploaded_file 
-                WHERE depot_id = :id";
-
+    
+        $sql = "UPDATE depot SET uploaded_file = :uploaded_file WHERE id_depot = :id_depot";
         try {
             $query = $conn->prepare($sql);
-            $query->execute([
-                ':id' => $id,
-                ':exercise_id' => $deposit['exercise_id'],
-                ':deposit_date' => $deposit['deposit_date'],
-                ':uploaded_file' => $deposit['uploaded_file'],
-            ]);
+            $query->execute([':uploaded_file' => $newFilePath,':id_depot' => $id_depot]);
         } catch (Exception $e) {
             die('Erreur: ' . $e->getMessage());
         }
