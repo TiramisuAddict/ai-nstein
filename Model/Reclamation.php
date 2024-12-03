@@ -4,14 +4,17 @@ class Reclamation {
     private $titre;
     private $type;
     private $contenu;
+    private $date; // Ajout de la propriété pour la date de réclamation
 
-    public function __construct($titre, $type, $contenu) {
+    // Constructeur pour initialiser les propriétés
+    public function __construct($titre, $type, $contenu, $date = null) {
         $this->titre = $titre;
         $this->type = $type;
         $this->contenu = $contenu;
+        $this->date = $date ? $date : date('Y-m-d H:i:s'); // Si la date n'est pas fournie, utiliser l'heure actuelle
     }
 
-    // Getters and setters for `id`
+    // Getters et setters pour `id`
     public function getId() {
         return $this->id;
     }
@@ -20,7 +23,7 @@ class Reclamation {
         $this->id = $id;
     }
 
-    // Getters and setters for `titre`
+    // Getters et setters pour `titre`
     public function getTitre() {
         return $this->titre;
     }
@@ -29,7 +32,7 @@ class Reclamation {
         $this->titre = $titre;
     }
 
-    // Getters and setters for `type`
+    // Getters et setters pour `type`
     public function getType() {
         return $this->type;
     }
@@ -38,13 +41,22 @@ class Reclamation {
         $this->type = $type;
     }
 
-    // Getters and setters for `contenu`
+    // Getters et setters pour `contenu`
     public function getContenu() {
         return $this->contenu;
     }
 
     public function setContenu($contenu) {
         $this->contenu = $contenu;
+    }
+
+    // Getters et setters pour `date`
+    public function getDate() {
+        return $this->date;
+    }
+
+    public function setDate($date) {
+        $this->date = $date;
     }
 }
 ?>

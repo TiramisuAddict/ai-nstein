@@ -6,7 +6,7 @@ class ReclamationController {
     // Récupérer toutes les réclamations
     public function getReclamation() {
         $conn = config::getConnexion(); // Connexion à la base de données
-        $sql = "SELECT * FROM reclamation";
+        $sql = "SELECT * FROM reclamation"; // Sélectionner toutes les réclamations
 
         try {
             $query = $conn->prepare($sql); // Préparation de la requête
@@ -20,15 +20,19 @@ class ReclamationController {
     // Ajouter une réclamation
     public function addReclamation($reclamation) {
         $conn = config::getConnexion(); // Connexion à la base de données
-        $sql = "INSERT INTO reclamation (titre, type, contenu) VALUES (:titre, :type, :contenu)";
+        // Ajout de la colonne `date` lors de l'insertion
+        $sql = "INSERT INTO reclamation (titre, type, contenu, date) 
+                VALUES (:titre, :type, :contenu, :date)";
 
         try {
             $query = $conn->prepare($sql); // Préparation de la requête
+            // Exécution avec les valeurs de la réclamation, y compris la date
             $query->execute([
                 ':titre' => $reclamation->getTitre(),
                 ':type' => $reclamation->getType(),
-                ':contenu' => $reclamation->getContenu()
-            ]); // Exécution avec les valeurs de la réclamation
+                ':contenu' => $reclamation->getContenu(),
+                ':date' => $reclamation->getDate() // Ajout de la date
+            ]);
         } catch (Exception $e) {
             die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
         }
@@ -37,7 +41,10 @@ class ReclamationController {
     // Mettre à jour une réclamation
     public function updateReclamation($id, $reclamation) {
         $conn = config::getConnexion();
-        $sql = "UPDATE reclamation SET titre = :titre, type = :type, contenu = :contenu WHERE id = :id";
+        // Mise à jour de la réclamation, y compris la date
+        $sql = "UPDATE reclamation 
+                SET titre = :titre, type = :type, contenu = :contenu, date = :date 
+                WHERE id = :id";
 
         try {
             $query = $conn->prepare($sql);
@@ -45,7 +52,8 @@ class ReclamationController {
                 ':id' => $id,
                 ':titre' => $reclamation->getTitre(),
                 ':type' => $reclamation->getType(),
-                ':contenu' => $reclamation->getContenu()
+                ':contenu' => $reclamation->getContenu(),
+                ':date' => $reclamation->getDate() // Mettre à jour la date
             ]);
         } catch (Exception $e) {
             die('Erreur: ' . $e->getMessage()); // Gestion des erreurs

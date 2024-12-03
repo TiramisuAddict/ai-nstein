@@ -41,12 +41,17 @@
       .btn-primary:hover {
         background: #5a76d8;
       }
+      .error-message {
+        color: red;
+        font-size: 0.9rem;
+        margin-top: 4px;
+      }
     </style>
   </head>
   <body>
     <div class="form-container">
       <h2>Add Reclamation</h2>
-      <form action="addRec.php" method="post">
+      <form id="reclamationForm" action="addRec.php" method="post">
         <!-- Title Field -->
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
@@ -56,39 +61,88 @@
             id="title"
             class="form-control"
             placeholder="Enter the title"
-            required
           />
         </div>
         <!-- Type Field -->
         <div class="mb-3">
           <label for="type" class="form-label">Type</label>
-          <input
-            type="text"
-            name="type"
-            id="type"
-            class="form-control"
-            placeholder="Enter the type"
-            required
-          />
+          <select name="type" id="type" class="form-control">
+            <option value="" disabled selected>
+              -- Choose your Reclamation --
+            </option>
+            <option value="Technical Issue">Technical Issue</option>
+            <option value="Customer Service">Customer Service</option>
+            <option value="Billing">Billing</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
         <!-- Message Field -->
         <div class="mb-3">
           <label for="message" class="form-label">Message</label>
           <textarea
-            name="message"
+            name="contenu"
             id="message"
             rows="5"
             class="form-control"
             placeholder="Write your message"
-            required
           ></textarea>
         </div>
+
         <!-- Submit Button -->
         <div class="text-center">
           <button type="submit" class="btn btn-primary w-100">Submit</button>
         </div>
       </form>
     </div>
+    <!-- JavaScript Validation -->
+    <script>
+      document
+        .getElementById("reclamationForm")
+        .addEventListener("submit", function (event) {
+          // Remove any existing error messages
+          const errorMessages = document.querySelectorAll(".error-message");
+          errorMessages.forEach((message) => message.remove());
+
+          let hasErrors = false;
+
+          const title = document.getElementById("title").value.trim();
+          const type = document.getElementById("type").value.trim();
+          const message = document.getElementById("message").value.trim();
+
+          // Helper function to display error messages dynamically
+          function displayError(inputId, errorMessage) {
+            const inputField = document.getElementById(inputId);
+            const errorElement = document.createElement("div");
+            errorElement.className = "error-message";
+            errorElement.textContent = errorMessage;
+            inputField.parentElement.appendChild(errorElement);
+          }
+
+          // Validation logic
+          if (title.length < 2) {
+            displayError("title", "Title must contain at least 2 characters.");
+            hasErrors = true;
+          }
+
+          if (type === "") {
+            displayError("type", "Please select a type of reclamation.");
+            hasErrors = true;
+          }
+
+          if (message.length < 10) {
+            displayError(
+              "message",
+              "Message must contain at least 10 characters."
+            );
+            hasErrors = true;
+          }
+
+          // Prevent form submission if errors exist
+          if (hasErrors) {
+            event.preventDefault();
+          }
+        });
+    </script>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
   </body>

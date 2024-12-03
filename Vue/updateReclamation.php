@@ -44,6 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "All fields are required!";
     }
 }
+
+// Liste des types de réclamation (exemple)
+$types = ["Technical", "Billing", "Customer Service", "Other"];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,10 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Reclamation</title>
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/styles.css" /> <!-- Include shared CSS -->
 </head>
 <body>
@@ -81,14 +81,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="mb-3">
                 <label for="type" class="form-label">Type</label>
-                <input
-                    type="text"
+                <select
                     name="type"
                     id="type"
                     class="form-control"
-                    value="<?= htmlspecialchars($_POST['type'] ?? $reclamation['type']) ?>"
                     required
-                />
+                >
+                    <?php
+                    // Générer les options de la liste déroulante pour le type
+                    foreach ($types as $t) {
+                        // Si le type actuel correspond à celui de la réclamation, le marquer comme sélectionné
+                        $selected = $t === $reclamation['type'] ? 'selected' : '';
+                        echo "<option value=\"$t\" $selected>$t</option>";
+                    }
+                    ?>
+                </select>
             </div>
             <div class="mb-3">
                 <label for="message" class="form-label">Message</label>
@@ -100,6 +107,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     required
                 ><?= htmlspecialchars($_POST['message'] ?? $reclamation['contenu']) ?></textarea>
             </div>
+
+            <!-- Afficher la date de réclamation (en lecture seule) -->
+            <div class="mb-3">
+                <label for="date" class="form-label">Date of Reclamation</label>
+                <input
+                    type="text"
+                    id="date"
+                    class="form-control"
+                    value="<?= htmlspecialchars($reclamation['date']) ?>"
+                    readonly
+                />
+            </div>
+
             <div class="text-center">
                 <button type="submit" class="btn btn-primary w-100">Update</button>
             </div>

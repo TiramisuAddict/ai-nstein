@@ -9,10 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupérer et valider les données en entrée
     $title = trim($_POST['title'] ?? '');
     $type = trim($_POST['type'] ?? '');
-    $message = trim($_POST['message'] ?? '');
+    $contenu = trim($_POST['contenu'] ?? '');
 
     // Vérifications des champs vides
-    if (empty($title) || empty($type) || empty($message)) {
+    if (empty($title) || empty($type) || empty($contenu)) {
         echo "All fields are required!";
         exit;
     }
@@ -20,10 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Protection contre les scripts (XSS)
     $title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
     $type = htmlspecialchars($type, ENT_QUOTES, 'UTF-8');
-    $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
+    $contenu = htmlspecialchars($contenu, ENT_QUOTES, 'UTF-8');
 
     // Création de l'objet réclamation
-    $reclamation = new Reclamation($title, $type, $message);
+    $reclamation = new Reclamation($title, $type, $contenu);
 
     try {
         // Ajout de la réclamation
