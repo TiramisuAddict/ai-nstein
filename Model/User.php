@@ -13,6 +13,7 @@ class User {
     private $filedata;
     private $role;
     private $status;
+    private $cdate;
 
     public function __construct($username, $email, $pwd, $itbackground, $age, $sexe, $educationlvl, $experience, $filename, $filedata, $role, $status) {
         $this->username = $username;
@@ -131,6 +132,14 @@ class User {
 
     public function setStatus($status) {
         $this->status = $status;
+    }
+
+    public function getCdate() {
+        return $this->cdate;
+    }
+
+    public function setCdate($cdate) {
+        $this->cdate = $cdate;
     }
 }
 ?>

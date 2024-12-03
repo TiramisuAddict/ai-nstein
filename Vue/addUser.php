@@ -6,7 +6,9 @@
 
     $username = $_POST['username'];
     $email = $_POST['email'];
-    $password = $_POST['password'];
+
+    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+
     $age = $_POST['age'];
     $education_level = $_POST['education_level'];
     $gender = $_POST['gender'];

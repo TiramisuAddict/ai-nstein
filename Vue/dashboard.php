@@ -108,7 +108,7 @@
 
             <!-- Section text -->
             <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">Text section</span>
+              <span class="menu-header-text">Manage Users</span>
             </li>
             <!-- Section text -->
             
@@ -117,8 +117,8 @@
               <a
                 href="dashboard.php"
                 class="menu-link">
-                <i class="menu-icon tf-icons bx bx-user"></i>
-                <div class="text-truncate">Manage users</div>
+                <i class="menu-icon tf-icons bx bx-customize"></i>
+                <div class="text-truncate">Users list</div>
               </a>
             </li>
             <!-- Page link (Manage users) -->
@@ -250,12 +250,11 @@
 										<table class="table table-hover">
 											<thead>
 												<tr>
-                          <th>Id</th>
 													<th>Username</th>
                           <th>Age</th>
 													<th>Email</th>
 													<th>Role</th>
-                          <th>Password</th>
+                          <th>Join Date</th>
                           <th>Profile</th>
 													<th>Update</th>
                           <th>Delete</th>
@@ -264,12 +263,11 @@
 											<tbody class="table-border-bottom-0">
                         <?php foreach ($users as $user): ?>
                           <tr>
-                            <td><?php echo $user['id']; ?></td>
                             <td><?php echo ($user['username']); ?></td>
                             <td><?php echo ($user['age']); ?></td>
                             <td><?php echo ($user['email']); ?></td>
                             <td><?php echo ($user['role']); ?></td>
-                            <td><?php echo ($user['pwd']); ?></td>
+                            <td><?php echo ($user['cdate']); ?></td>
                             <td><a href="userProfile.php?id=<?php echo $user['id']; ?>"><button class="btn btn-sm btn-outline-info"><i class="bx bx-link-alt"></i> Profile </button></a></td>
                             <td><a href="updateUser.php?id=<?php echo $user['id']; ?>"><button class="btn btn-sm btn-outline-warning"><i class="bx bx-edit-alt"></i> Edit </button></a></td>
 													  <td><a href="deleteUser.php?id=<?php echo $user['id']; ?>"><button class="btn btn-sm btn-outline-secondary"><i class="bx bx-trash"></i> Delete </button></a></td>

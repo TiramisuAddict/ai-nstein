@@ -33,7 +33,7 @@ class UserController {
                 ':sexe' => $user->getSexe(),
                 ':educationlvl' => $user->getEducationlvl(),
                 ':experience' => $user->getExperience(),
-                ':filename' => $user->getFilename(), // Corrected this line
+                ':filename' => $user->getFilename(),
                 ':filedata' => $user->getFiledata(),
                 ':role' => $user->getRole(),
                 ':cdate' => date('Y-m-d'),
@@ -108,8 +108,6 @@ class UserController {
         }
     }
 
-    // ============================================================================== //
-
     public function countMaleUsers() {
         $conn = config::getConnexion();
 
@@ -140,10 +138,10 @@ class UserController {
         }
     }
 
-    public function loginCheck($email, $pwd) {
+    public function loginCheck($email) {
         $conn = config::getConnexion();
 
-        $sql = "SELECT * FROM users WHERE email = '$email' AND pwd = '$pwd'";
+        $sql = "SELECT * FROM users WHERE email = '$email'";
 
         try {
             $query = $conn->prepare($sql);

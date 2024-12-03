@@ -1,7 +1,7 @@
 <?php
   require_once '../Controller/UserController.php';  
 
-  $filter = $_GET['statusFilter'] ?? 'All';
+  $filter = $_GET['statusFilter'] ?? 'Pending';
 
   $userController = new UserController();
 
@@ -48,7 +48,6 @@
   <body>
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
-        <!-- Side Menu -->
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <!-- logo -->
           <div class="app-brand demo">
@@ -104,7 +103,7 @@
 
             <!-- Section text -->
             <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">Text section</span>
+              <span class="menu-header-text">Manage Users</span>
             </li>
             <!-- Section text -->
             
@@ -113,8 +112,8 @@
               <a
                 href="dashboard.php"
                 class="menu-link">
-                <i class="menu-icon tf-icons bx bx-user"></i>
-                <div class="text-truncate">Manage users</div>
+                <i class="menu-icon tf-icons bx bx-customize"></i>
+                <div class="text-truncate">Users list</div>
               </a>
             </li>
             <!-- Page link (Manage users) -->
@@ -132,7 +131,6 @@
 
           </ul>
         </aside>
-        <!-- Side Menu -->
         
         <!-- Page content -->
         <div class="layout-page">
@@ -169,7 +167,7 @@
                 <form action="expertRequestList.php?<?php echo $_GET['statusFilter'] ?? ''; ?>">
                   <div class="d-flex justify-content-between align-items-center">
                     <select class="form-select m-2" name="statusFilter">
-                      <option value="All">All</option>
+                      <option value="All" <?php if ($filter == "All") echo " selected"; ?> >All</option>
                       <option value="Approved" <?php if ($filter == "Approved") echo " selected"; ?> >Approved</option>
                       <option value="Pending" <?php if ($filter == "Pending") echo " selected"; ?>>Pending</option>
                       <option value="Rejected" <?php if ($filter == "Rejected") echo " selected"; ?>>Rejected</option>

@@ -6,11 +6,17 @@
   $email = $_POST['email'];
   $password = $_POST['password'];
 
-  $result = $userController->loginCheck($email, $password);
+  $result = $userController->loginCheck($email);
 
-  if($result){
-    header('Location: dashboard.php');
-    exit;
+  if ($result && isset($result[0]['pwd'])) {
+    if (password_verify($password, $result[0]['pwd'])) {
+      header('Location: dashboard.php');
+      exit;
+    } else {
+      echo '<div class="alert alert-danger" role="alert">Invalid password.</div>';
+    }
+  } else {
+    echo '<div class="alert alert-danger" role="alert">Invalid email or password.</div>';
   }
 ?>
 
