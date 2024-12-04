@@ -1,34 +1,45 @@
 <?php
-class Reponse {
-    private ?int $id = null;
-    private ?string $text= null;
+	class Reponse{
+		private $idReponse=null;
+        private $idQuestion=null;
+		private $text=null;
+		private $isCorrect = null ;		
+		//// Contructor
+		function __construct($idQuestion,$text,$isCorrect){
+			$this->idQuestion=$idQuestion;
+            $this->text=$text;
+            $this->isCorrect=$isCorrect;
+		}
 
-    public function __construct($text)
-    {
-        $this->text = $text;
-    }
+        /// Getters
+		function getidQuestion(){
+			return $this->idQuestion;
+		}
 
-    // Getters
-    public function getId(): int
-    {
-        return $this->id;
-    }
+        function getidReponse(){
+			return $this->idReponse;
+		}
+		
 
-    public function getText(): string
-    {
-        return $this->text;
-    }
-    // Setters
-    public function setId($id): self
-    {
-        $this->id = $id;
-        return $this;
-    }
+		function gettext(){
+			return $this->text;
+		}
 
-    public function setText($text): self
-    {
-        $this->text = $text;
-        return $this;
-    }
+        function getisCorrect(){
+			return $this->isCorrect;
+		}
+
+        function settext(string $text){
+			$this->text=$text;
+		}
+
+        function setisCorrect(string $isCorrect){
+			$this->isCorrect=$isCorrect;
+		}
+
+        function setidQuestion(int $idQuestion){
+            return $this->idQuestion=$idQuestion;
+	}
+
 }
 ?>
