@@ -10,17 +10,20 @@ class CoursC
     
 
 
-    public function listCours()
-    {
-        $sql = "SELECT * FROM cours";
-        $db = config::getConnexion();
-        try {
-            $liste = $db->query($sql);
-            return $liste->fetchAll();
-        } catch (Exception $e) {
-            die('Erreur : ' . $e->getMessage());
-        }
+    public function listCours($order = 'ASC')
+{
+    $sql = "SELECT * FROM cours ORDER BY date_pub " . $order; // Tri selon $order
+    $db = config::getConnexion();
+    try {
+        $liste = $db->query($sql);
+        return $liste->fetchAll();
+    } catch (Exception $e) {
+        echo 'Erreur SQL : ' . $e->getMessage();
+        return [];
     }
+}
+
+
     function deleteCours($id_matiere)
     {
         $sql = "DELETE FROM cours WHERE id_matiere = :id_matiere";
@@ -101,6 +104,21 @@ public function affichercours($id)
         echo "error";
     }
 }
-    
+
+public function chercher($recherche)
+{
+    $sql = "SELECT * FROM cours WHERE nom_matiere = :recherche";
+    $db = config::getConnexion();
+    try {
+        $query = $db->prepare($sql);
+        $query->bindValue(":recherche", $recherche);
+        $query->execute();
+        return $query->fetchAll();
+    } catch (Exception $e) {
+        echo 'Erreur SQL : ' . $e->getMessage();
+        return [];
+    }
+}
+
     
 }

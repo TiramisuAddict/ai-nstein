@@ -1,9 +1,18 @@
 <?php
+
+
+
 include '../../controller/CoursC.php';
 
-// Instancier le contrôleur et récupérer la liste des cours
+$order = isset($_GET['order']) ? $_GET['order'] : 'ASC';
+
 $coursC = new CoursC();
-$list = $coursC->listCours();
+$list = $coursC->listCours($order); // Inclut le tri ici
+
+if (isset($_POST['search'])) {
+    $list = $coursC->chercher($_POST['search']);
+}
+
 ?>
 <!DOCTYPE html>
 
@@ -18,7 +27,7 @@ $list = $coursC->listCours();
 
 <head>
   <meta charset="utf-8">
-  <title>Agen | Bootstrap Agency Template</title>
+  <title>AI-NSTEIN | Bootstrap Agency Template</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,7 +59,7 @@ $list = $coursC->listCours();
 
 <header class="navigation fixed-top">
   <nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="Egen"></a>
+  <a class="navbar-brand" href="index.html"><span style="font-size: 1.5rem; font-weight: bold; color: #fff;">AI-NSTEIN</span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
       aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -108,6 +117,120 @@ $list = $coursC->listCours();
 </section>
 <!-- /page-title -->
 
+
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between mb-5">
+        <!-- Formulaire de Recherche (à gauche) -->
+        <form action="listcours.php" method="post" class="d-flex" style="max-width: 600px; width: 100%;">
+            <input type="text" name="search" class="form-control rounded-start" id="recherche" placeholder="Rechercher Cours">
+            <button class="btn btn-outline-primary rounded-end" type="submit">Rechercher</button>
+        </form>
+
+        <!-- Formulaire de Tri (à droite) -->
+        <form action="listcours.php" method="get" class="d-flex" style="max-width: 250px;">
+    <label for="order">Trier par date pub :</label>
+    <select name="order" id="order" class="form-control" onchange="this.form.submit()">
+        <option value="ASC" <?= isset($_GET['order']) && $_GET['order'] == 'ASC' ? 'selected' : ''; ?>>Croissant</option>
+        <option value="DESC" <?= isset($_GET['order']) && $_GET['order'] == 'DESC' ? 'selected' : ''; ?>>Décroissant</option>
+    </select>
+</form>
+
+    </div>
+</div>
+<style>
+
+    /* Espacement avec le header */
+.container.mt-5 {
+    margin-top: 60px; /* Augmenté pour plus d'espacement entre le header et les formulaires */
+}
+
+/* Espacement du titre */
+section.container.mt-5 h2 {
+    margin-bottom: 50px; /* Espacement entre le titre et la liste des sponsors */
+}
+
+/* Espacement entre les formulaires */
+.d-flex.justify-content-between.mb-5 {
+    margin-top: 50px; /* Espacement entre le header et les formulaires */
+    margin-bottom: 50px; /* Espacement entre les formulaires et la section suivante */
+}
+
+/* Espacement entre les formulaires */
+.d-flex.justify-content-between.mb-5 {
+    margin-top: 50px; /* Espacement entre le header et les formulaires */
+    margin-bottom: 50px; /* Espacement entre les formulaires et la section suivante */
+}
+
+/* Formulaire de recherche */
+form.d-flex {
+    display: flex;
+    align-items: center;
+}
+
+form input#recherche {
+    border: 1px solid #ddd;
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+form input#recherche:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+form button.btn {
+    border: 1px solid #007bff;
+    border-radius: 0 10px 10px 0;
+    background-color: #007bff;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+form button.btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Formulaire de tri */
+form.d-flex select {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 8px 15px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form.d-flex select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+form.d-flex select option {
+    font-size: 1rem;
+}
+
+/* Espacement avec le header */
+.container.mt-5 {
+    margin-top: 60px; /* Augmenté pour plus d'espacement entre le header et les formulaires */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+footer {
+    padding-top: 20px; /* Espacement supérieur du footer */
+}
+
+</style>
+
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -133,8 +256,10 @@ $list = $coursC->listCours();
       <!-- Affichage des cours sous forme de cartes -->
       <div class="row">
           <?php
-          // Boucle pour afficher chaque cours sous forme de carte
-          foreach ($list as $cours) {
+          if (empty($list)) {
+            echo "<p>Aucun cours trouvé.</p>";
+        } else 
+            foreach ($list as $cours) {
           ?>
               <div class="col-md-4 mb-4">
                   <div class="card shadow-lg course-card">

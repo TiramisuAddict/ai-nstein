@@ -9,20 +9,22 @@ require_once '../../model/Cours.php';
 class SeanceS
 {
     
-    public static function getlistSeance()
-{
-    $sql = "SELECT id_seance, id_matiereseance, date_seance, heure_d, heure_f, description FROM seance";
-    $db = config::getConnexion();
-    try {
-        $query = $db->prepare($sql);
-        $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
-    } catch (Exception $e) {
-        echo 'Erreur : ' . $e->getMessage();
-        return [];
+    public static function getlistSeance($order = 'ASC')
+    {
+        $sql = "SELECT id_seance, id_matiereseance, date_seance, heure_d, heure_f, description 
+                FROM seance 
+                ORDER BY date_seance " . $order; // Tri selon $order
+        $db = config::getConnexion();
+        try {
+            $query = $db->prepare($sql);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return [];
+        }
     }
-}
-
+    
         
         
     function addSeance($seance)
@@ -139,6 +141,22 @@ function getCoursDetails($id_matiereseance)
             return null; // Renvoie null en cas d'erreur
         }
     }
+
+    public function chercher($recherche){
+        $sql="SELECT * FROM seance WHERE  nom_matiere = :recherche";
+        $db = config::getConnexion();
+        try{
+            $query = $db->prepare($sql);
+            $query->bindValue(":recherche",$recherche);
+            $query->execute();
+            $liste = $query->fetchAll();
+            return $liste;
+        }
+        catch(Exception $e){
+           $e->getMessage();
+        }
+    }
+    
         
 
 }
