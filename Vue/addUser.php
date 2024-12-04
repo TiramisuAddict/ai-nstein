@@ -14,8 +14,21 @@
     $gender = $_POST['gender'];
     $background = $_POST['it_background'];
 
-    $user = new User($username, $email, $password, $background, $age, $gender, $education_level, '', '', '', "User", '', '');
+    $target_file = null; // Default value if no file is uploaded.
 
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+        $filename = $_FILES['profile_picture']['name'];
+        $filetmpname = $_FILES['profile_picture']['tmp_name'];
+    
+        $target_dir = "../Vue/uploads/profile_pictures/";
+        $target_file = $target_dir . basename($filename);
+    
+        if (!move_uploaded_file($filetmpname, $target_file)) {
+            die("Error uploading file.");
+        }
+    }
+
+    $user = new User($username, $email, $password, $background, $age, $gender, $education_level, null, null, "User", null, $target_file);
     $userController->addUser($user);
 
     header('Location: dashboard.php');
