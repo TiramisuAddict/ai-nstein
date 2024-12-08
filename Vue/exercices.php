@@ -1,21 +1,57 @@
 <?php
 require_once '../Config.php';
 require_once '../Model/exercice.php';
+
+$predictedDifficulty = isset($_GET['predicted_difficulty']) ? intval($_GET['predicted_difficulty']) : null;
+
+// Map the predicted difficulty number to the corresponding string value
+$predicted_difficulty_map = [
+    0 => 'Beginner',
+    1 => 'Intermediate',
+    2 => 'Advanced'
+];
+
+$predictedDifficultyStr = isset($predicted_difficulty_map[$predictedDifficulty]) ? $predicted_difficulty_map[$predictedDifficulty] : null;
+
 try {
-    $pdo = config::getConnexion(); 
-    $query = "SELECT id, title, description, difficulty_level, image, date_creation FROM exercises ORDER BY date_creation DESC";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute();
-    $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) 
-{
-    die("Error: " . $e->getMessage()); 
-}
-if (!$projects) {
-    echo "No projects found.";
-    exit;
+    $conn = config::getConnexion();
+    if ($predictedDifficultyStr !== null) {
+      // Set the order based on the predicted difficulty
+      $order = "";
+      if ($predictedDifficulty == 2) {
+          $order = "'Advanced', 'Intermediate', 'Beginner'";
+      } elseif ($predictedDifficulty == 1) {
+          $order = "'Intermediate', 'Advanced', 'Beginner'";
+      } elseif ($predictedDifficulty == 0) {
+          $order = "'Beginner', 'Intermediate', 'Advanced'";
+      }
+    }
+    if ($predictedDifficultyStr !== null) {
+        $stmt = $conn->prepare("
+            SELECT id, title, description, difficulty_level, author_name, project_file, image, date_creation 
+            FROM exercises
+            ORDER BY 
+                CASE 
+                    WHEN difficulty_level = :predicted_difficulty THEN 1 
+                    ELSE 0 
+                END DESC, 
+                FIELD(difficulty_level, $order) ASC
+        ");
+
+        $stmt->execute(['predicted_difficulty' => $predictedDifficultyStr]);
+        $projects = $stmt->fetchAll();    
+    } else {
+        $stmt = $conn->query("SELECT * FROM exercises ORDER BY difficulty_level ASC");
+        $projects = $stmt->fetchAll();
+    }
+    
+} catch (PDOException $e) {
+    echo "Database Error: " . $e->getMessage();
 }
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -145,9 +181,7 @@ if (!$projects) {
                               <div class="card-body">
                                   <h5 class="card-title"><?= htmlspecialchars($project['title']) ?></h5>
                                   <p class="card-text"><?= htmlspecialchars($project['description']) ?></p>
-                                  <p class="card-text">
-                                      <small class="text-muted"><strong>Difficulty Level:</strong> <?= htmlspecialchars($project['difficulty_level']) ?></small>
-                                  </p>
+                                  <p><strong>Difficulty Level:</strong> <?= htmlspecialchars($project['difficulty_level']) ?></p>
                                   <p class="card-text">
                                       <small class="text-muted"><strong>Created On:</strong> <?= date('F j, Y', strtotime($project['date_creation'])) ?></small>
                                   </p>
