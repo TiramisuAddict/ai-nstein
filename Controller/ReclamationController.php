@@ -1,8 +1,9 @@
 <?php
-require_once '../Config.php';
-require_once '../Model/Reclamation.php';
+require_once (__DIR__ . '/../config.php');
+require_once (__DIR__ . '/../Model/Reclamation.php');
 
 class ReclamationController {
+
     // Récupérer toutes les réclamations
     public function getReclamation() {
         $conn = config::getConnexion(); // Connexion à la base de données
@@ -20,13 +21,11 @@ class ReclamationController {
     // Ajouter une réclamation
     public function addReclamation($reclamation) {
         $conn = config::getConnexion(); // Connexion à la base de données
-        // Ajout de la colonne `date` lors de l'insertion
         $sql = "INSERT INTO reclamation (titre, type, contenu, date) 
                 VALUES (:titre, :type, :contenu, :date)";
 
         try {
             $query = $conn->prepare($sql); // Préparation de la requête
-            // Exécution avec les valeurs de la réclamation, y compris la date
             $query->execute([
                 ':titre' => $reclamation->getTitre(),
                 ':type' => $reclamation->getType(),
@@ -41,7 +40,6 @@ class ReclamationController {
     // Mettre à jour une réclamation
     public function updateReclamation($id, $reclamation) {
         $conn = config::getConnexion();
-        // Mise à jour de la réclamation, y compris la date
         $sql = "UPDATE reclamation 
                 SET titre = :titre, type = :type, contenu = :contenu, date = :date 
                 WHERE id = :id";
@@ -77,11 +75,37 @@ class ReclamationController {
     public function getReclamationById($id) {
         $conn = config::getConnexion();
         $sql = "SELECT * FROM reclamation WHERE id = :id";
-
         try {
             $query = $conn->prepare($sql);
             $query->execute([':id' => $id]);
-            return $query->fetch();
+            return $query->fetch(); // Retourne une réclamation spécifique
+        } catch (Exception $e) {
+            die('Erreur: ' . $e->getMessage());
+        }
+    }
+
+    // Récupérer les réclamations triées par ID
+    public function getReclamationsSortedById($order = 'asc') {
+        $conn = config::getConnexion();
+        $sql = "SELECT * FROM reclamation ORDER BY id " . ($order === 'desc' ? 'DESC' : 'ASC');
+        try {
+            $query = $conn->prepare($sql);
+            $query->execute();
+            return $query->fetchAll(); // Retourne toutes les réclamations triées
+        } catch (Exception $e) {
+            die('Erreur: ' . $e->getMessage());
+        }
+    }
+
+    // Récupérer les réclamations par type
+    public function getReclamationsByType($type) {
+        $conn = config::getConnexion();
+        $sql = "SELECT * FROM reclamation WHERE type = :type";
+
+        try {
+            $query = $conn->prepare($sql);
+            $query->execute([':type' => $type]);
+            return $query->fetchAll(); // Retourne les réclamations du type spécifié
         } catch (Exception $e) {
             die('Erreur: ' . $e->getMessage());
         }

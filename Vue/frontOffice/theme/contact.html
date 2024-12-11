@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="utf-8" />
+    <title>Reclamation</title>
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css" />
+    <!-- Main Stylesheet -->
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <header class="navigation fixed-top">
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navigation"
+          aria-controls="navigation"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse text-center" id="navigation">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="services.html">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <section
+      class="page-title bg-cover"
+      data-background="images/backgrounds/page-title.jpg"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1 class="display-1 text-white font-weight-bold font-primary">
+              Add Reclamation
+            </h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container mt-5">
+      <div class="bg-white p-4">
+        <h3 class="mb-4">Ajouter une Réclamation</h3>
+        <form id="reclamationForm" action="addRec.php" method="post">
+          <!-- Title Field -->
+          <div class="mb-3">
+            <label for="title" class="form-label">Titre</label>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              class="form-control"
+              placeholder="Entrez le titre"
+            />
+            <small class="text-danger" id="titleError"></small>
+          </div>
+          <!-- Type Field -->
+          <div class="mb-3">
+            <label for="type" class="form-label">Type</label>
+            <select name="type" id="type" class="form-control">
+              <option value="" disabled selected>
+                -- Choisissez un type --
+              </option>
+              <option value="Technical Issue">Problème Technique</option>
+              <option value="Customer Service">Service Client</option>
+              <option value="Billing">Facturation</option>
+              <option value="Other">Autre</option>
+            </select>
+            <small class="text-danger" id="typeError"></small>
+          </div>
+          <!-- Message Field -->
+          <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea
+              name="contenu"
+              id="message"
+              rows="5"
+              class="form-control"
+              placeholder="Écrivez votre message"
+            ></textarea>
+            <small class="text-danger" id="messageError"></small>
+          </div>
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary w-100">Soumettre</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- JavaScript de Validation -->
+    <script>
+      document
+        .getElementById("reclamationForm")
+        .addEventListener("submit", function (event) {
+          let valid = true;
+
+          // Récupération des champs
+          const title = document.getElementById("title").value.trim();
+          const type = document.getElementById("type").value;
+          const message = document.getElementById("message").value.trim();
+
+          // Effacer les anciens messages d'erreur
+          document.getElementById("titleError").textContent = "";
+          document.getElementById("typeError").textContent = "";
+          document.getElementById("messageError").textContent = "";
+
+          // Validation du titre
+          if (title.length < 2) {
+            document.getElementById("titleError").textContent =
+              "Le titre doit contenir au moins 2 caractères.";
+            valid = false;
+          }
+
+          // Validation du type
+          if (!type) {
+            document.getElementById("typeError").textContent =
+              "Veuillez sélectionner un type de réclamation.";
+            valid = false;
+          }
+
+          // Validation du message
+          if (message.length < 10) {
+            document.getElementById("messageError").textContent =
+              "Le message doit contenir au moins 10 caractères.";
+            valid = false;
+          }
+
+          // Empêcher la soumission si des erreurs existent
+          if (!valid) {
+            event.preventDefault();
+          }
+        });
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="plugins/bootstrap/bootstrap.min.js"></script>
+  </body>
+</html>
