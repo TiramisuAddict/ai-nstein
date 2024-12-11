@@ -2,8 +2,8 @@
 // Connexion à la base de données
 $host = "localhost";
 $dbname = "youssefbd";
-$username = "root"; // Remplacez par votre nom d'utilisateur MySQL
-$password = ""; // Remplacez par votre mot de passe MySQL
+$username = "root";
+$password = "";
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -16,8 +16,56 @@ try {
 // Récupérer les articles de la base de données
 $query = $pdo->query("SELECT * FROM articles ORDER BY date_creation DESC");
 $articles = $query->fetchAll(PDO::FETCH_ASSOC);
-?>
 
+
+
+
+
+// Récupérer la moyenne des notes
+function getAverageRating($articleId, $pdo) {
+  $query = $pdo->prepare("SELECT AVG(note) AS avg_rating FROM ratings WHERE article_id = :article_id");
+  $query->bindParam(':article_id', $articleId, PDO::PARAM_INT);
+  $query->execute();
+  $result = $query->fetch(PDO::FETCH_ASSOC);
+  return $result['avg_rating'] ? round($result['avg_rating'], 1) : null;
+}
+
+
+
+
+// Fonction pour afficher les étoiles
+
+function displayStars($rating) {
+  $fullStars = floor($rating); // Nombre d'étoiles pleines
+  $halfStar = ($rating - $fullStars) >= 0.5 ? 1 : 0; // Étoile à moitié pleine
+  $emptyStars = 5 - $fullStars - $halfStar; // Étoiles vides
+
+  echo '<div class="star-rating-display">';
+  
+  // Affichage des étoiles pleines
+  for ($i = 0; $i < $fullStars; $i++) {
+      echo '<span class="filled">★</span>'; // Étoile pleine
+  }
+  
+  // Affichage de l'étoile à moitié pleine (si nécessaire)
+  if ($halfStar) {
+      echo '<span class="half-filled">★</span>'; // Étoile moitié pleine
+  }
+  
+  // Affichage des étoiles vides
+  for ($i = 0; $i < $emptyStars; $i++) {
+      echo '<span class="empty">★</span>'; // Étoile vide
+  }
+
+  echo '</div>';
+}
+
+
+
+
+
+
+?>
 
 <!DOCTYPE html>
 
@@ -56,6 +104,25 @@ $articles = $query->fetchAll(PDO::FETCH_ASSOC);
   <!--Favicon-->
   <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+
+  <link href="css/style.css" rel="stylesheet">
+
+  <style>
+    .star-rating-display {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 5px;
+        font-size: 24px;
+        color: gray;
+    }
+
+    .star-rating-display span.filled {
+        color: gold;
+    }
+</style>
+
+
 
 </head>
 
@@ -130,7 +197,12 @@ $articles = $query->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-  
+
+
+
+
+
+
 
 
 
@@ -162,36 +234,38 @@ $articles = $query->fetchAll(PDO::FETCH_ASSOC);
                         <?php else: ?>
                             <img class="card-img-top" src="placeholder.jpg" alt="Image par défaut">
                         <?php endif; ?>
-                        <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($article['titre']); ?></h5>
-                            <p class="card-text"><?= htmlspecialchars($article['contenu']); ?></p>
-                            <p class="card-text">
-                                <small class="text-muted">Publié le : <?= htmlspecialchars($article['date_creation']); ?></small>
-                            </p>
-                            <p class="card-text">
-                                <small class="text-muted">Auteur : <?= htmlspecialchars($article['auteur']); ?></small>
-                            </p>
 
-                            <!-- Affichage des commentaires -->
-                            <h6>Commentaires :</h6>
-                            <?php
-                            $commentsQuery = $pdo->prepare("SELECT * FROM commentaires WHERE article_id = :article_id ORDER BY date_publication DESC");
-                            $commentsQuery->bindParam(':article_id', $article['id']);
-                            $commentsQuery->execute();
-                            $comments = $commentsQuery->fetchAll(PDO::FETCH_ASSOC);
-                            ?>
-                            <?php foreach ($comments as $comment): ?>
-                                <p><strong><?= htmlspecialchars($comment['auteur']); ?>:</strong> <?= htmlspecialchars($comment['message']); ?></p>
-                            <?php endforeach; ?>
+                        <div class="card-body">
+                            <a href="articleDetails.php?id=<?= $article['id']; ?>" class="text-decoration-none text-dark">
+                                <h5 class="card-title"><?= htmlspecialchars($article['titre']); ?></h5>
+                                <p class="card-text"><?= htmlspecialchars($article['contenu']); ?></p>
+                                <p class="card-text">
+                                    <small class="text-muted">Auteur : <?= htmlspecialchars($article['auteur']); ?></small>
+                                </p>
+                            </a>
+
+                            <!-- Affichage de la note sous forme d'étoiles -->
+                            <div><strong>Note moyenne : </strong>
+                                <?php
+                                $averageRating = getAverageRating($article['id'], $pdo); // Récupérer la note moyenne
+                                if ($averageRating !== null) {
+                                    displayStars($averageRating); // Afficher les étoiles correspondant à la moyenne
+                                } else {
+                                    echo "Pas de note"; // Si aucune note n'est disponible
+                                }
+                                ?>
+                            </div>
 
                             <!-- Formulaire pour ajouter un commentaire -->
-                            <form action="addComment.php" method="POST">
+                            <form id="commentForm" action="addComment.php" method="POST">
                                 <input type="hidden" name="article_id" value="<?= $article['id']; ?>">
                                 <div class="mb-3">
-                                    <textarea name="message" class="form-control" rows="2" placeholder="Écrire un commentaire..." required></textarea>
+                                    <textarea name="message" id="comment-message" class="form-control" rows="2" placeholder="Écrire un commentaire..."></textarea>
+                                    <small class="text-danger d-none" id="message-error">Le message ne peut pas être vide et doit contenir entre 10 et 500 caractères.</small>
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" name="auteur" class="form-control" placeholder="Votre nom" required>
+                                    <input type="text" name="auteur" id="comment-author" class="form-control" placeholder="Votre nom">
+                                    <small class="text-danger d-none" id="author-error">Le nom est obligatoire et doit contenir uniquement des lettres et des espaces.</small>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-sm">Commenter</button>
                             </form>
@@ -202,15 +276,98 @@ $articles = $query->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </section>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('#commentForm').forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    let isValid = true;
+
+                    // Validation du message
+                    const messageField = form.querySelector('#comment-message');
+                    const messageError = form.querySelector('#message-error');
+                    const messageValue = messageField.value.trim();
+
+                    if (!messageValue || messageValue.length < 10 || messageValue.length > 500) {
+                        isValid = false;
+                        messageError.classList.remove('d-none');
+                    } else {
+                        messageError.classList.add('d-none');
+                    }
+
+                    // Validation de l'auteur
+                    const authorField = form.querySelector('#comment-author');
+                    const authorError = form.querySelector('#author-error');
+                    const authorValue = authorField.value.trim();
+
+                    if (!authorValue || !/^[A-Za-zÀ-ÖØ-öø-ÿ ]+$/.test(authorValue)) {
+                        isValid = false;
+                        authorError.classList.remove('d-none');
+                    } else {
+                        authorError.classList.add('d-none');
+                    }
+
+                    // Bloque la soumission si des erreurs sont détectées
+                    if (!isValid) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        /* Transition et effet au survol (hover) des cartes */
+        .card-body {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Effet hover sur la carte */
+        .card-body:hover {
+            transform: translateY(-5px); /* Légère élévation */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Ombre */
+            background-color: #f8f9fa; /* Changement léger de couleur de fond */
+        }
+
+        /* Lien de l'article sans soulignement ni couleur */
+        a.text-decoration-none.text-dark {
+            text-decoration: none; /* Pas de soulignement */
+            color: inherit; /* Garde la couleur actuelle */
+            transition: color 0.3s ease; /* Transition fluide */
+        }
+
+        /* Lien au survol avec couleur navy */
+        a.text-decoration-none.text-dark:hover {
+            color: navy; /* Change la couleur au survol */
+            text-decoration: underline; /* Ajoute un soulignement */
+        }
+
+        /* Styles pour les étoiles */
+        .star-rating-display {
+            font-size: 1.5em;
+            color: gold;
+        }
+
+        .filled {
+            color: gold;
+        }
+
+        .half-filled {
+            color: gold;
+        }
+
+        .empty {
+            color: lightgray;
+        }
+    </style>
+
 </body>
 
 
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
 
 
 
@@ -297,6 +454,9 @@ $articles = $query->fetchAll(PDO::FETCH_ASSOC);
 
 <!-- Main Script -->
 <script src="js/script.js"></script>
+
+
+
 
 </body>
 </html>

@@ -10,174 +10,207 @@ $articles = $articleController->getArticles();
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des articles</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liste des articles</title>
 
-        /* Conteneur principal */
-        div {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-        /* En-tête de la page */
-        h1 {
-            text-align: center;
-            color: #4CAF50;
-            margin-bottom: 20px;
-        }
+  <!-- Custom Styles -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
 
-        /* Styles pour la table */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+    /* Navbar */
+    .navbar {
+      background-color: ;
+    }
 
-        table th, table td {
-            padding: 12px 15px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
+    .navbar-brand img {
+      max-width: 120px;
+    }
 
-        table th {
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
-        }
+    /* Page title section */
+    .page-title {
+      background: url('images/backgrounds/page-title.jpg') no-repeat center center/cover;
+      color: white;
+      padding: 100px 0;
+      text-align: center;
+    }
 
-        table td {
-            word-wrap: break-word; /* Permet de couper les mots longs */
-            word-break: break-word;
-            max-width: 300px; /* Largeur maximale de la cellule */
-            white-space: normal; /* Active le retour à la ligne */
-        }
+    .page-title h1 {
+      font-size: 2.5em;
+      font-weight: bold;
+    }
 
-        table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+    /* Table container */
+    .table-container {
+      margin-top: 50px;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-        /* Boutons */
-        a.delete-btn {
-            color: white;
-            background-color: #e53935;
-            padding: 8px 12px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 14px;
-        }
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
 
-        a.update-btn {
-            color: white;
-            background-color: #4CAF50;
-            padding: 8px 12px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 14px;
-        }
+    table th, table td {
+      padding: 12px 15px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
 
-        a.delete-btn:hover {
-            background-color: #c62828;
-        }
+    table th {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+    }
 
-        a.update-btn:hover {
-            background-color: #45a049;
-        }
+    table tr:nth-child(even) {
+      background-color: ;
+    }
 
-        /* Réactivité pour les écrans étroits */
-        @media (max-width: 768px) {
-            table th, table td {
-                padding: 10px;
-                font-size: 14px;
-            }
+    /* Buttons */
+    a.delete-btn,
+    a.update-btn {
+      color: white;
+      padding: 8px 12px;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 14px;
+    }
 
-            a.delete-btn, a.update-btn {
-                padding: 6px 10px;
-                font-size: 12px;
-            }
-        }
-    </style>
+    a.delete-btn {
+      background-color: #e53935;
+    }
+
+    a.update-btn {
+      background-color: #4CAF50;
+    }
+
+    a.delete-btn:hover {
+      background-color: #c62828;
+    }
+
+    a.update-btn:hover {
+      background-color: #45a049;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #f8f9fa;
+      padding: 20px;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .navbar-brand img {
+        max-width: 80px;
+      }
+
+      .page-title h1 {
+        font-size: 1.8em;
+      }
+
+      table th, table td {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      a.delete-btn, a.update-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <div>
 
-
-<!-- Side Menu -->
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-          <!-- logo -->
-          <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
-              <span class="app-brand-logo demo">
-                <img src="assets/img/elements/logo.svg" alt="ainstein logo" width="120"/>
-              </span>
-            </a>
-
-            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-              <i class="bx bx-chevron-left bx-sm d-flex align-items-center justify-content-center"></i>
-            </a>
-          </div>
-          <!-- logo -->
-
-         
-        </aside>
-        <!-- Side Menu -->
-
-
-
-
-
-
-
-        <h1>Liste des articles</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Titre</th>
-                    <th>Contenu</th>
-                    <th>Image</th>
-                    <th>Auteur</th>
-                    <th>Date de création</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($articles as $article): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($article['id']); ?></td>
-                        <td><?php echo htmlspecialchars($article['titre']); ?></td>
-                        <td><?php echo htmlspecialchars($article['contenu']); ?></td>
-                        <td>
-                            <?php if (!empty($article['image'])): ?>
-                                <img src="uploads/<?php echo htmlspecialchars($article['image']); ?>" alt="Image" style="max-width: 100px; max-height: 100px;">
-                            <?php else: ?>
-                                Aucune image
-                            <?php endif; ?>
-                        </td>
-                        <td><?php echo htmlspecialchars($article['auteur']); ?></td>
-                        <td><?php echo htmlspecialchars($article['date_creation']); ?></td>
-                        <td>
-                            <a class="delete-btn" href="deleteArticle.php?id=<?php echo $article['id']; ?>" 
-                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?')">Supprimer</a>
-                            <a class="update-btn" href="expertamodifier.php?id=<?php echo $article['id']; ?>">Modifier</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <a class="navbar-brand" href="index.html">
+      <img src="images/logo.png" alt="Logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+      </ul>
     </div>
+  </nav>
+
+  <!-- Page title section -->
+  <section class="page-title">
+    <h1>Liste des Articles</h1>
+  </section>
+
+  <!-- Main content -->
+  <div class="container table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Titre</th>
+          <th>Contenu</th>
+          <th>Image</th>
+          <th>Auteur</th>
+          <th>Date de création</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($articles as $article): ?>
+          <tr>
+            <td><?php echo htmlspecialchars($article['id']); ?></td>
+            <td><?php echo htmlspecialchars($article['titre']); ?></td>
+            <td><?php echo htmlspecialchars($article['contenu']); ?></td>
+            <td>
+              <?php if (!empty($article['image'])): ?>
+                <img src="uploads/<?php echo htmlspecialchars($article['image']); ?>" alt="Image" style="max-width: 100px; max-height: 100px;">
+              <?php else: ?>
+                Aucune image
+              <?php endif; ?>
+            </td>
+            <td><?php echo htmlspecialchars($article['auteur']); ?></td>
+            <td><?php echo htmlspecialchars($article['date_creation']); ?></td>
+            <td>
+              <a class="delete-btn" href="deleteArticle.php?id=<?php echo $article['id']; ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?')">Supprimer</a>
+              <a class="update-btn" href="expertamodifier.php?id=<?php echo $article['id']; ?>">Modifier</a>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+
+
+
 </body>
+
 </html>

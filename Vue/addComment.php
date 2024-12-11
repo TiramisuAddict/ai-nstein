@@ -1,46 +1,37 @@
 <?php
-require_once '../Controller/commentController.php';
-require_once '../Model/commentaire.php'; // Inclure le modèle de commentaire
+// Connexion à la base de données
+$host = "localhost";
+$dbname = "youssefbd";
+$username = "root";
+$password = "";
 
-// Initialisation du contrôleur
-$commentaireController = new CommentaireController(); // Attention au nom de la classe
-$message = "";
-
-// Gestion des requêtes POST pour ajouter un commentaire
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Récupérer les données du formulaire
-    $article_id = $_POST['article_id'] ?? null;
-    $auteur = trim($_POST['auteur'] ?? '');
-    $message = trim($_POST['message'] ?? '');
-
-    // Validation des données
-    if (!empty($article_id) && !empty($auteur) && !empty($message)) {
-        // Créer une instance du modèle Commentaire
-        $commentaire = new Commentaire($message, date("Y-m-d H:i:s"), $auteur, $article_id);
-
-        // Ajouter le commentaire via le contrôleur
-        try {
-            $isAdded = $commentaireController->addComment($commentaire);
-
-            if ($isAdded) {
-                // Redirection en cas de succès
-                header("Location: listeComment.php?id=" . $article_id . "&success=1");
-                exit;
-            } else {
-                $error = "Erreur lors de l'ajout du commentaire.";
-            }
-        } catch (Exception $e) {
-            $error = "Exception : " . $e->getMessage();
-        }
-    } else {
-        $error = "Veuillez remplir tous les champs.";
-    }
-
-    // En cas d'erreur, rediriger avec un message d'erreur
-    if (isset($error)) {
-        header("Location: listeComment.php?id=" . $article_id . "&error=" . urlencode($error));
-        exit;
-    }
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->exec("SET NAMES utf8");
+} catch (PDOException $e) {
+    die("Erreur de connexion à la base de données : " . $e->getMessage());
 }
-?>
+
+// Vérification des données soumises
+if (!empty($_POST['article_id']) && !empty($_POST['message']) && !empty($_POST['auteur'])) {
+    $articleId = (int) $_POST['article_id'];
+    $message = htmlspecialchars($_POST['message']);
+    $auteur = htmlspecialchars($_POST['auteur']);
+
+    // Insertion du commentaire
+    $query = $pdo->prepare("INSERT INTO commentaires (article_id, message, auteur, date_publication) VALUES (:article_id, :message, :auteur, NOW())");
+    $query->bindParam(':article_id', $articleId);
+    $query->bindParam(':message', $message);
+    $query->bindParam(':auteur', $auteur);
+
+    if ($query->execute()) {
+        header("Location: articleDetails.php?id=$articleId");
+    } else {
+        echo "Erreur lors de l'ajout du commentaire.";
+    }
+} else {
+    echo "Veuillez remplir tous les champs.";
+}
+
 

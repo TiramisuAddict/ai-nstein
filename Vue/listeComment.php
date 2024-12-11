@@ -12,136 +12,92 @@ $commentaires = $commentController->getCommentaires();
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des commentaires</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Liste des Commentaires</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Optional: Add custom styles -->
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
+        .navbar {
+            background-color: ;
         }
-
-        /* Conteneur principal */
-        div {
-            max-width: 1200px;
-            margin: 20px auto;
+        .navbar-brand img {
+            max-width: 100px;
+        }
+        .table-container {
+            margin-top: 50px;
+        }
+        .footer {
+            background-color: #f8f9fa;
             padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        /* En-tête de la page */
-        h1 {
             text-align: center;
-            color: #4CAF50;
-            margin-bottom: 20px;
-        }
-
-        /* Styles pour la table */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        table th, table td {
-            padding: 12px 15px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-
-        table th {
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
-        }
-
-        table td {
-            word-wrap: break-word; /* Permet de couper les mots longs */
-            word-break: break-word;
-            max-width: 300px; /* Largeur maximale de la cellule */
-            white-space: normal; /* Active le retour à la ligne */
-        }
-
-        table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        /* Boutons */
-        a.delete-btn {
-            color: white;
-            background-color: #e53935;
-            padding: 8px 12px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        a.update-btn {
-            color: white;
-            background-color: #4CAF50;
-            padding: 8px 12px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        a.delete-btn:hover {
-            background-color: #c62828;
-        }
-
-        a.update-btn:hover {
-            background-color: #45a049;
-        }
-
-        /* Réactivité pour les écrans étroits */
-        @media (max-width: 768px) {
-            table th, table td {
-                padding: 10px;
-                font-size: 14px;
-            }
-
-            a.delete-btn, a.update-btn {
-                padding: 6px 10px;
-                font-size: 12px;
-            }
         }
     </style>
 </head>
 <body>
-    <div>
-        <h1>Liste des commentaires</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>ID Article</th>
-                    <th>Message</th>
-                    <th>Auteur</th>
-                    <th>Date de Publication</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($commentaires as $commentaire): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($commentaire['id']); ?></td>
-                        <td><?php echo htmlspecialchars($commentaire['article_id']); ?></td>
-                        <td><?php echo htmlspecialchars($commentaire['message']); ?></td>
-                        <td><?php echo htmlspecialchars($commentaire['auteur']); ?></td>
-                        <td><?php echo htmlspecialchars($commentaire['date_publication']); ?></td>
-                        <td>
-                            <a class="delete-btn" href="deleteComment.php?id=<?php echo $commentaire['id']; ?>" 
-                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">Supprimer</a>
-                            <a class="update-btn" href="commentamodifier.php?id=<?php echo $commentaire['id']; ?>">Modifier</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <a class="navbar-brand" href="index.html">
+        <img src="images/logo.png" alt="Logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Contact</a>
+            </li>
+        </ul>
     </div>
+</nav>
+
+<!-- Page title section -->
+<section class="page-title bg-cover text-center text-white" style="background-image: url('images/backgrounds/page-title.jpg'); padding: 60px 0;">
+    <h1>Liste des Commentaires</h1>
+</section>
+
+<!-- Main content -->
+<div class="container table-container">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ID Article</th>
+                <th>Message</th>
+                <th>Auteur</th>
+                <th>Date de Publication</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($commentaires as $commentaire): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($commentaire['id']); ?></td>
+                    <td><?php echo htmlspecialchars($commentaire['article_id']); ?></td>
+                    <td><?php echo htmlspecialchars($commentaire['message']); ?></td>
+                    <td><?php echo htmlspecialchars($commentaire['auteur']); ?></td>
+                    <td><?php echo htmlspecialchars($commentaire['date_publication']); ?></td>
+                    <td>
+                        <a class="btn btn-danger" href="deleteComment.php?id=<?php echo $commentaire['id']; ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">Supprimer</a>
+                        <a class="btn btn-primary" href="commentamodifier.php?id=<?php echo $commentaire['id']; ?>">Modifier</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
+
+
 </body>
 </html>
