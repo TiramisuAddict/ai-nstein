@@ -12,6 +12,16 @@ if (isset($_POST['search'])) {
     $list = $seanceS->chercher($_POST['search']);
 }
 
+$events = [];
+foreach ($list as $seance) {
+    $events[] = [
+        'id' => $seance['id_seance'],
+        'title' => $seance['description'],
+        'start' => $seance['date_seance'] . 'T' . $seance['heure_d'],
+        'end' => $seance['date_seance'] . 'T' . $seance['heure_f'],
+    ];
+}
+$eventsJson = json_encode($events);
 
 ?>
 
@@ -52,6 +62,9 @@ if (isset($_POST['search'])) {
   <!--Favicon-->
   <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+   <!-- Customized Bootstrap Stylesheet -->
+   <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
 
 </head>
 
@@ -234,6 +247,77 @@ footer {
 </style>
 
 
+<!-----------calendrier------------>
+
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+
+<div id="calendar"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var events = <?= $eventsJson; ?>; // Injecte les événements depuis PHP
+
+        console.log(events); // Debug des événements
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: events, // Charge les événements
+            eventClick: function(info) {
+                alert('Événement : ' + info.event.title + '\nID : ' + info.event.id);
+            }
+        });
+
+        calendar.render();
+    });
+</script>
+
+
+<style>
+    #calendar {
+        max-width: 600px; /* Taille réduite */
+        margin: 20px auto; /* Centrage */
+        border: 1px solid #ccc; /* Bordure légère */
+        border-radius: 8px; /* Coins arrondis */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+        font-family: "Arial", sans-serif; /* Police simple */
+        background-color: #f9f9f9; /* Couleur de fond douce */
+    }
+
+    .fc-toolbar-title {
+        color: #4caf50; /* Couleur du titre */
+        font-weight: bold;
+    }
+
+    .fc-daygrid-event {
+        background-color: #2196f3 !important; /* Couleur des événements */
+        color: #fff !important; /* Texte blanc */
+        border-radius: 4px; /* Coins arrondis */
+    }
+
+    .fc-button {
+        background-color: #4caf50; /* Boutons verts */
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .fc-button:hover {
+        background-color: #45a049; /* Survol des boutons */
+    }
+</style>
+
+
+
 
 <head>
   <meta charset="UTF-8">
@@ -375,5 +459,10 @@ footer {
 <!-- Main Script -->
 <script src="js/script.js"></script>
 
+
+<script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2024/12/07/20/20241207203635-H87SE3CC.js"></script>
+    
+    
 </body>
 </html>

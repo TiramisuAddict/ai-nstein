@@ -33,6 +33,8 @@ class CoursC
 
         try {
             $req->execute();
+            CoursC::logAction('Delete', $id_matiere);  // Appel statique de logAction
+
         } catch (Exception $e) {
             die('Error:' . $e->getMessage());
         }
@@ -57,6 +59,8 @@ public function addCours($cours)
             't' => $cours->getType(),
             'i' => $cours->getImage()
         ]);
+        CoursC::logAction('Add', null, 'Matière: ' . $cours->getNomMatiere());  // Appel statique de logAction
+
         
         // Redirection vers la page listcours.php après l'ajout
         header('Location: listcours.php');
@@ -83,6 +87,7 @@ public function updatecours($id, $nom_matiere, $date_pub, $type)
             'date_pub' => $date_pub,
             'type' => $type
         ]);
+        CoursC::logAction('Update', $id, 'Matière: ' . $nom_matiere);
     } catch (PDOException $e) {
         echo $e->getMessage();
     }
@@ -119,6 +124,53 @@ public function chercher($recherche)
         return [];
     }
 }
+
+
+
+
+public function getStatistics()
+{
+    $db = config::getConnexion();
+    $statistics = [];
+    try {
+        // Total des cours
+        $sqlTotal = "SELECT COUNT(*) AS total FROM cours";
+        $statistics['total'] = $db->query($sqlTotal)->fetch()['total'];
+
+        // Nombre de cours par type
+        $sqlByType = "SELECT type, COUNT(*) AS count FROM cours GROUP BY type";
+        $statistics['byType'] = $db->query($sqlByType)->fetchAll(PDO::FETCH_ASSOC);
+
+        // Matières les plus fréquentes
+        $sqlByMatiere = "SELECT nom_matiere, COUNT(*) AS count FROM cours GROUP BY nom_matiere ORDER BY count DESC LIMIT 5";
+        $statistics['topMatieres'] = $db->query($sqlByMatiere)->fetchAll(PDO::FETCH_ASSOC);
+
+        return $statistics;
+    } catch (Exception $e) {
+        die('Erreur : ' . $e->getMessage());
+    }
+}
+
+public static function logAction($action, $id_matiere = null, $additional_info = '') {
+    $logFile = '../../historiquecours/cours_history.txt'; // Le chemin du fichier de log
+    $date = new DateTime();
+    $formattedDate = $date->format('Y-m-d H:i:s');
+    
+    // Construction du message à ajouter
+    $logMessage = "[$formattedDate] - Action: $action";
+    if ($id_matiere) {
+        $logMessage .= " - ID Matiere: $id_matiere";
+    }
+    if ($additional_info) {
+        $logMessage .= " - Info: $additional_info";
+    }
+    $logMessage .= "\n";
+    
+    // Écriture du log dans le fichier
+    file_put_contents($logFile, $logMessage, FILE_APPEND);
+}
+
+
 
     
 }

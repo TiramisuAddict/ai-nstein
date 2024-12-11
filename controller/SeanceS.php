@@ -50,6 +50,7 @@ class SeanceS
             'hf' => $seance-> getHeure_f(),
             'des' => $seance->getDescription()
             ]);
+            self::logAction('Add', null, 'Seance pour Cours: ' . $seance->getId_matiereseance());
             echo "Seance added successfully!";
         } else {
             echo "Error: Cours details not found.";
@@ -82,6 +83,8 @@ function getCoursDetails($id_matiereseance)
             $querry->execute([
                 'id_seance' => $id_seance
             ]);
+            self::logAction('Delete', $id_seance);
+
         } catch (PDOException $th) {
             return $th->getMessage();
         }
@@ -110,7 +113,8 @@ function getCoursDetails($id_matiereseance)
                 'heure_f' => $data['heure_f'],
                 'description' => $data['description']
             ]);
-    
+            self::logAction('Update', $data['id_seance'], 'Seance mise à jour');
+
             return true; // Mise à jour réussie
         } catch (PDOException $e) {
             return "Error: " . $e->getMessage();
@@ -155,6 +159,24 @@ function getCoursDetails($id_matiereseance)
         catch(Exception $e){
            $e->getMessage();
         }
+    }
+    public static function logAction($action, $id_seance = null, $additional_info = '') {
+        $logFile = '../../historiqueseance/seance_history.txt'; // Le chemin du fichier de log
+        $date = new DateTime();
+        $formattedDate = $date->format('Y-m-d H:i:s');
+        
+        // Construction du message à ajouter
+        $logMessage = "[$formattedDate] - Action: $action";
+        if ($id_seance) {
+            $logMessage .= " - ID Seance: $id_seance";
+        }
+        if ($additional_info) {
+            $logMessage .= " - Info: $additional_info";
+        }
+        $logMessage .= "\n";
+        
+        // Écriture du log dans le fichier
+        file_put_contents($logFile, $logMessage, FILE_APPEND);
     }
     
         

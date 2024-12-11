@@ -368,43 +368,42 @@ $list = $seanceS::getlistSeance();
                 </nav>
                 <!-- End of Topbar -->
    
-<center>
+                
+                
+                <body>
     <h1>Liste des Séances</h1>
     <div>
-                <a href="addseance.php" class="btn btn-primary">Ajouter une seance</a>
-            </div>
-</center>
-<table border="1">
-    <tr>
-        <th>id_seance</th>
-        <th>id_matiere</th>
-        <th>date_seance</th>
-        <th>heure_d</th>
-        <th>heure_f</th>
-        <th>description</th>
-        <th>Update</th>
-        <th>Delete</th>
-      
-    </tr>
-    <?php foreach ($list as $seance) { ?>
+        <a href="addseance.php" class="btn btn-primary">Ajouter une séance</a>
+    </div>
+    <table style="width: 100%; font-size: 16px; border-spacing: 0; border-collapse: collapse;">
         <tr>
-            <td><?= $seance['id_seance']; ?></td>
-            <td><?= $seance['id_matiereseance']; ?></td>
-            <td><?= $seance['date_seance']; ?></td>
-            <td><?= $seance['heure_d']; ?></td>
-            <td><?= $seance['heure_f']; ?></td>
-            <td><?= $seance['description']; ?></td>
-            <td>
-                                <!-- Lien vers la page de modification du cours -->
-                                <a href="updateseance.php?id=<?php echo $seance['id_seance']; ?>" class="btn btn-warning">Modifier</a>                            </td>
-            <td>
-                <a href="deleteseance.php?id_seance=<?= $seance['id_seance']; ?>">Delete</a>
-            </td>
-            
-            
+            <th style="padding: 15px; background-color: #007bff; color: white; border: 1px solid #ddd;">ID Séance</th>
+            <th style="padding: 15px; background-color: #007bff; color: white; border: 1px solid #ddd;">ID Matière</th>
+            <th style="padding: 15px; background-color: #007bff; color: white; border: 1px solid #ddd;">Date</th>
+            <th style="padding: 15px; background-color: #007bff; color: white; border: 1px solid #ddd;">Heure de Début</th>
+            <th style="padding: 15px; background-color: #007bff; color: white; border: 1px solid #ddd;">Heure de Fin</th>
+            <th style="padding: 15px; background-color: #007bff; color: white; border: 1px solid #ddd;">Description</th>
+            <th style="padding: 15px; background-color: #007bff; color: white; border: 1px solid #ddd;">Modifier</th>
+            <th style="padding: 15px; background-color: #007bff; color: white; border: 1px solid #ddd;">Supprimer</th>
         </tr>
-    <?php } ?>
-</table>
+        <?php foreach ($list as $seance) { ?>
+        <tr>
+            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;"><?= $seance['id_seance']; ?></td>
+            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;"><?= $seance['id_matiereseance']; ?></td>
+            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;"><?= $seance['date_seance']; ?></td>
+            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;"><?= $seance['heure_d']; ?></td>
+            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;"><?= $seance['heure_f']; ?></td>
+            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;"><?= $seance['description']; ?></td>
+            <td class="actions" style="padding: 12px; border: 1px solid #ddd; text-align: center;">
+                <a href="updateseance.php?id=<?= $seance['id_seance']; ?>" class="btn btn-warning">Modifier</a>
+            </td>
+            <td class="actions" style="padding: 12px; border: 1px solid #ddd; text-align: center;">
+                <a href="deleteseance.php?id_seance=<?= $seance['id_seance']; ?>" class="btn btn-danger">Supprimer</a>
+            </td>
+        </tr>
+        <?php } ?>
+    </table>
+</body>
 
 
                 

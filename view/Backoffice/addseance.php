@@ -438,7 +438,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if (!empty($error)) { echo "<p class='error'>$error</p>"; } ?>
         <form method="POST" action="">
             <label for="id_matiereseance">Sélectionnez une matière :</label>
-             <select name="id_matiereseance" id="id_matiereseance" required>
+             <select name="id_matiereseance" id="id_matiereseance" >
              <option value="">-- Choisissez une matière --</option>
         <?php foreach ($cours as $matiere) { ?>
             <!-- Ici, l'attribut 'value' contient l'id_matiere, et l'option affiche le nom_matiere -->
@@ -448,16 +448,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php } ?>
     </select>
             <label for="date_seance">Date de la séance :</label>
-            <input type="date" name="date_seance" id="date_seance" required>
+            <input type="date" name="date_seance" id="date_seance" >
 
             <label for="heure_d">Heure de début :</label>
-            <input type="time" name="heure_d" id="heure_d" required>
+            <input type="time" name="heure_d" id="heure_d" >
 
             <label for="heure_f">Heure de fin :</label>
-            <input type="time" name="heure_f" id="heure_f" required>
+            <input type="time" name="heure_f" id="heure_f" >
 
             <label for="description">Description :</label>
-            <textarea name="description" id="description" rows="4" required></textarea>
+            <textarea name="description" id="description" rows="4" ></textarea>
 
             <input type="submit" value="Ajouter Séance">
         </form>

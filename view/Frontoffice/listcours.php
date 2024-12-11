@@ -409,5 +409,8 @@ footer {
 <!-- Main Script -->
 <script src="js/script.js"></script>
 
+<script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2024/12/07/20/20241207203635-H87SE3CC.js"></script>
+    
 </body>
 </html>

@@ -4,6 +4,15 @@ include '../../controller/CoursC.php';
 // Instancier le contrôleur et récupérer la liste des cours
 $coursC = new CoursC();
 $list = $coursC->listCours();
+
+// Récupérer les statistiques
+$statistics = $coursC->getStatistics();
+// Fonction pour générer des couleurs aléatoires
+function random_color() {
+    return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -419,6 +428,8 @@ $list = $coursC->listCours();
         <div class="d-flex">
             <h1>Liste des Cours</h1>
             <div>
+            <a href="generate_pdf.php" class="btn btn-success">Générer PDF</a>
+
                 <a href="addCours.php" class="btn btn-primary">Ajouter un Cours</a>
             </div>
         </div>
@@ -473,13 +484,168 @@ $list = $coursC->listCours();
 
 
 
+  
+<div class="statistics-container">
+    <h2>Statistiques</h2>
+    <div class="statistics-cards">
+        <!-- Total des cours -->
+        <div class="stat-card">
+            <h3>Total des Cours</h3>
+            <p><?= $statistics['total']; ?></p>
+        </div>
+
+        <!-- Cours par type -->
+        <div class="stat-card">
+            <h3>Cours par Type</h3>
+            <ul>
+                <?php foreach ($statistics['byType'] as $type) : ?>
+                    <li><?= htmlspecialchars($type['type']); ?> : <?= $type['count']; ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+
+        <!-- Top 5 des matières -->
+        <div class="stat-card">
+            <h3>Top 5 des Matières</h3>
+            <ul>
+                <?php foreach ($statistics['topMatieres'] as $matiere) : ?>
+                    <li><?= htmlspecialchars($matiere['nom_matiere']); ?> : <?= $matiere['count']; ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+</div>
 
 
 
+<style>
+
+.statistics-container {
+    margin: 50px auto;
+    max-width: 1000px;
+    text-align: center;
+}
+
+.statistics-container h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.statistics-cards {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.stat-card {
+    flex: 1;
+    max-width: 300px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.stat-card h3 {
+    font-size: 1.5rem;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.stat-card p {
+    font-size: 1.2rem;
+    color: #555;
+    font-weight: bold;
+}
+
+.stat-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.stat-card ul li {
+    padding: 5px 0;
+    color: #333;
+}
+
+.stat-card ul li:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+}
 
 
 
+    </style>
 
+
+
+<div class="col-xl-4 col-lg-5">
+    <div class="card shadow mb-4">
+        <!-- Card Header -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Statistiques des Cours</h6>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+            <div class="chart-pie pt-4 pb-2">
+                <canvas id="coursPieChart"></canvas>
+            </div>
+            <div class="mt-4 text-center small">
+                <?php foreach ($statistics['byType'] as $type) : ?>
+                    <span class="mr-2">
+                        <i class="fas fa-circle" style="color: <?= random_color(); ?>;"></i>
+                        <?= htmlspecialchars($type['type']); ?> : <?= $type['count']; ?>
+                    </span>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('coursPieChart').getContext('2d');
+
+        // Données dynamiques récupérées depuis PHP
+        const labels = <?= json_encode(array_column($statistics['byType'], 'type')); ?>;
+        const data = <?= json_encode(array_column($statistics['byType'], 'count')); ?>;
+
+        // Générer un tableau de couleurs aléatoires
+        const colors = labels.map(() => `hsl(${Math.random() * 360}, 70%, 60%)`);
+
+        // Initialiser le graphique
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: colors,
+                    hoverOffset: 4,
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+    });
+</script>
 
 
                 
