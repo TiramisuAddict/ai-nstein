@@ -3,10 +3,40 @@ include '../../../../../Controller/QuizC.php';
 
 
 $successMessage="";
-
+$recaptEror = null;
 $Quiz = null ;
 $QuizC = new QuizC();
 
+if(isset($_POST['submit']))
+{
+
+function CheckCaptcha($userResponse) {
+        $fields_string = '';
+        $fields = array(  
+            'secret' => '6Lc0F5gqAAAAAM085B4JgsK11ZysmzYEsXFuadRC',
+            'response' => $userResponse);
+        foreach($fields as $key=>$value)
+        $fields_string .= $key . '=' . $value . '&';
+        $fields_string = rtrim($fields_string, '&');
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify');
+        curl_setopt($ch, CURLOPT_POST, count($fields));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
+
+        $res = curl_exec($ch);
+        curl_close($ch);
+
+        return json_decode($res, true);
+    }
+
+
+    // Call the function CheckCaptcha
+    $result = CheckCaptcha($_POST['g-recaptcha-response']);
+
+
+    if ($result['success']) {
 if (		
   isset($_POST["titre"])&&
   isset($_POST["description"])&&
@@ -29,9 +59,15 @@ if (
   }
   else
       $errorMessage = "<label id = 'form' style = 'color: red; font-weight: bold;'>&emsp;Une Information manquant !</label>   ";
-      
-}
+    }   
+    echo "Captcha verified Successfully";
 
+} else {
+    // If the CAPTCHA box wasn't checked
+    $recaptEror="Please check ReCaptcha!";
+   //echo '<script>alert("Please check ReCaptcha!");</script>';
+}
+}
 ?>
 
 <!DOCTYPE html>
@@ -58,6 +94,9 @@ if (
   <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="../../images/favicon.png" />
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+
+
 </head>
 
 <body>
@@ -542,8 +581,21 @@ if (
                     <div id="difficulteerror" class="error-message"></div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary me-2">Submit</button>
+  
+
+                    <div class="g-recaptcha" data-sitekey="6Lc0F5gqAAAAAAO5wAeQN6ncZq_13zwqdPjpjHsf"></div>
+                    <?php 
+
+if($recaptEror!=null)
+{
+  echo '<div class="row mb-5"><div class="offset-sm-3 col-sm-3 d-grid"><a style="color:red">Please Check ReCaptcha!</a></div></div>';
+}
+
+?>
+                    <input type="submit" name="submit" class="btn btn-primary col-sm-3 " value="Ajouter" id ="Ajouter">
                     <a href="AfficherQuizs.php" class="btn btn-light">Cancel</a>
+
+
                   </form>
                 </div>
               </div>

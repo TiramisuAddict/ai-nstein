@@ -469,6 +469,8 @@ $listeQuiz = $QuizC->RechercheEtTri($search, $tri);
                 
                 <div class="card-body">
                 <a href="AjouterQuiz.php" class="btn btn-primary">Ajouter Quiz</a>
+                <a class="btn btn-danger" href="generate_pdf.php" target="_blank">Download PDF</a>
+                <a class="btn btn-success" href="excel.php" target="_blank">Download Excel</a>
 
                 <br>
                 <div style="margin: 10px 0px 10px 0px;width:900px;">
