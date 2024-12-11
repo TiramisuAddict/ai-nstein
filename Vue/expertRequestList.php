@@ -1,4 +1,8 @@
 <?php
+  session_start();
+  if ($_SESSION['role'] != 'Admin')
+    header('Location: page404.html');
+
   require_once '../Controller/UserController.php';  
 
   $filter = $_GET['statusFilter'] ?? 'Pending';
@@ -199,7 +203,7 @@
                             <td><?php echo ($expert['age']); ?></td>
                             <td><?php echo ($expert['sexe']); ?></td>
                             <td><?php echo ($expert['experience']); ?></td>
-                            <td><a href="downloadFile.php?id=<?php echo $expert['id']; ?>">Download</a></td>
+                            <td><a href="<?php echo $expert['proofdoc']; ?>">Download</a></td>
                             
                             <td>
                               <?php 

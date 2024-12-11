@@ -41,3 +41,25 @@
     background-color: #e69a00 !important;
     border-color: #e69a00 !important;
   }
+
+  .btn-outline-info {
+    color: #03c3ec;
+    border-color: #03c3ec;
+    background: transparent;
+  }
+  .btn-outline-info:hover {
+    color: #fff !important;
+    background-color: #01b5dd !important;
+    border-color: #01b5dd !important;
+    box-shadow: 0 0.125rem 0.25rem 0 rgba(255, 171, 0, 0.4) !important;
+  }
+  .btn-check:focus + .btn-outline-info, .btn-outline-info:focus {
+    color: #03c3ec;
+    border-color: #03c3ec;
+    background: transparent;
+  }
+  .btn-check:checked + .btn-outline-info, .btn-check:active + .btn-outline-info, .btn-outline-info:active, .btn-outline-info.active, .btn-outline-info.dropdown-toggle.show {
+    color: #fff !important;
+    background-color: #01b5dd !important;
+    border-color: #01b5dd !important;
+  }

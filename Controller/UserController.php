@@ -20,8 +20,8 @@ class UserController {
 
     public function addUser($user) {
         $conn = config::getConnexion();
-        $sql = "INSERT INTO users (username, email, pwd, itbackground, age, sexe, educationlvl, experience, role, cdate, status, file)
-            VALUES (:username, :email, :pwd, :itbackground, :age, :sexe, :educationlvl, :experience, :role, :cdate, :status, :filedata)";
+        $sql = "INSERT INTO users (username, email, pwd, itbackground, age, sexe, educationlvl, experience, role, cdate, status, file, proofdoc)
+            VALUES (:username, :email, :pwd, :itbackground, :age, :sexe, :educationlvl, :experience, :role, :cdate, :status, :filedata, :proofdoc)";
         try {
             $query = $conn->prepare($sql);
             $query->execute([
@@ -33,10 +33,12 @@ class UserController {
                 ':sexe' => $user->getSexe(),
                 ':educationlvl' => $user->getEducationlvl(),
                 ':experience' => $user->getExperience(),
-                ':filedata' => $user->getFiledata(),
                 ':role' => $user->getRole(),
                 ':cdate' => date('Y-m-d'),
-                ':status' => $user->getStatus()
+                ':status' => $user->getStatus(),
+                ':filedata' => $user->getFiledata(),
+                ':proofdoc' => $user->getProofdoc()
+
             ]);
         } catch (Exception $e) {
             die('Erreur: ' . $e->getMessage());

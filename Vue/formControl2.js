@@ -30,9 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   
       // Validate password
-      if (password.value.trim().length < 6) {
+      if (password.value.trim().length < 4) {
         valid = false;
-        errors.push('Password must be at least 6 characters long.');
+        errors.push('Password must be at least 4 characters long.');
       }
   
       // Validate age

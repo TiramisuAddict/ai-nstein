@@ -1,4 +1,9 @@
 <?php
+  session_start();
+  if ($_SESSION['role'] != 'Admin'){
+    header('Location: page404.html');
+  }
+  
   require_once '../Controller/UserController.php';  
 
   // Créer une instance de UserController
@@ -262,16 +267,18 @@
 											</thead>
 											<tbody class="table-border-bottom-0">
                         <?php foreach ($users as $user): ?>
-                          <tr>
-                            <td><?php echo ($user['username']); ?></td>
-                            <td><?php echo ($user['age']); ?></td>
-                            <td><?php echo ($user['email']); ?></td>
-                            <td><?php echo ($user['role']); ?></td>
-                            <td><?php echo ($user['cdate']); ?></td>
-                            <td><a href="userProfile.php?id=<?php echo $user['id']; ?>"><button class="btn btn-sm btn-outline-info"><i class="bx bx-link-alt"></i> Profile </button></a></td>
-                            <td><a href="updateUser.php?id=<?php echo $user['id']; ?>"><button class="btn btn-sm btn-outline-warning"><i class="bx bx-edit-alt"></i> Edit </button></a></td>
-													  <td><a href="deleteUser.php?id=<?php echo $user['id']; ?>"><button class="btn btn-sm btn-outline-secondary"><i class="bx bx-trash"></i> Delete </button></a></td>
-                          </tr>
+                          <?php if ($user['role'] !== 'Admin'): ?>
+                            <tr>
+                              <td><?php echo ($user['username']); ?></td>
+                              <td><?php echo ($user['age']); ?></td>
+                              <td><?php echo ($user['email']); ?></td>
+                              <td><?php echo ($user['role']); ?></td>
+                              <td><?php echo ($user['cdate']); ?></td>
+                              <td><a href="userProfile.php?id=<?php echo $user['id']; ?>"><button class="btn btn-sm btn-outline-info"><i class="bx bx-link-alt"></i> Profile </button></a></td>
+                              <td><a href="updateUser.php?id=<?php echo $user['id']; ?>"><button class="btn btn-sm btn-outline-warning"><i class="bx bx-edit-alt"></i> Edit </button></a></td>
+                              <td><a href="deleteUser.php?id=<?php echo $user['id']; ?>"><button class="btn btn-sm btn-outline-secondary"><i class="bx bx-trash"></i> Delete </button></a></td>
+                            </tr>
+                          <?php endif; ?>
                         <?php endforeach; ?>
 											</tbody>
 									</table>

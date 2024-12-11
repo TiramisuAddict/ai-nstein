@@ -3,21 +3,30 @@
 
   $userController = new UserController();
 
-  $email = $_POST['email'];
-  $password = $_POST['password'];
+  $email = $_POST['email'] ?? null;
+  $password = $_POST['password'] ?? null;
 
+  //check if the email is in the database
   $result = $userController->loginCheck($email);
 
+  //Successful login
   if ($result && isset($result[0]['pwd'])) {
     if (password_verify($password, $result[0]['pwd'])) {
-      header('Location: dashboard.php');
-      exit;
-    } else {
-      echo '<div class="alert alert-danger" role="alert">Invalid password.</div>';
+      session_start();
+      $_SESSION['username'] = $result[0]['username'];
+      $_SESSION['role'] = $result[0]['role'];
+      $_SESSION['id'] = $result[0]['id'];
+      $_SESSION['email'] = $email;
+      if($_SESSION['role'] == 'Admin') {
+        header('Location: dashboard.php');
+        exit;
+      } else {
+        header('Location: index.php');
+        exit;
+      }
     }
-  } else {
-    echo '<div class="alert alert-danger" role="alert">Invalid email or password.</div>';
   }
+
 ?>
 
 <!doctype html>
@@ -125,13 +134,21 @@
               </form>
               <!-- login form -->
 
+              <!-- Error message -->
               <?php
-                if(!$result) {
+                if ($result && isset($result[0]['pwd'])) {
+                  if (!password_verify($password, $result[0]['pwd']) && $password != null && $email != null) {
+                    echo '<div class="alert alert-danger" role="alert">
+                            Invalid email or password.
+                          </div>';
+                  }
+                } if(!$result && $password != null && $email != null) {
                     echo '<div class="alert alert-danger" role="alert">
                             Invalid email or password.
                           </div>';
                 }
               ?>
+              <!-- Error message -->
 
               <!-- other links -->
               <p class="text-center">
@@ -153,6 +170,6 @@
         </div>
       </div>
     </div>
-    <script src="input_control.js"></script>
+    <!-- <script src="input_control.js"></script> -->
   </body>
 </html>

@@ -55,7 +55,7 @@
               <h4 class="mb-1">Knowledge grows when shared ✨</h4>
               
               <!-- expert application form -->
-              <form method="post" action="addExpert.php" id="formAuthentication" class="mb-3">
+              <form method="post" action="addExpert.php" id="formAuthentication" class="mb-3" enctype="multipart/form-data">
                 
                 <div class="row">
                   <span class="col-sm-6">
@@ -128,12 +128,20 @@
                     </div>
                   </span>
 
-                  <span class="col-12">
+                  <span class="col-6">
                     <div class="mb-2">
                         <label for="proof" class="form-label">Proof document</label>
                         <input class="form-control" type="file" id="proof" name="proof"/>
                     </div>
                   </span>
+
+                  <span class="col-6">
+                    <div class="mb-2">
+                        <label for="portrait" class="form-label">Your Portrait</label>
+                        <input class="form-control" type="file" id="portrait" name="portrait"/>
+                    </div>
+                  </span>
+
                 </div>
     
                 <div class="my-4">
@@ -152,7 +160,7 @@
               <!-- other links -->
               <p class="text-center">
                 <span>Already have an account?</span>
-                <a href="../Vue/login.html">
+                <a href="../Vue/login.php">
                   <span>Sign in instead</span>
                 </a>
               </p>

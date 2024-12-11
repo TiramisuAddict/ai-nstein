@@ -9,12 +9,13 @@
         private $sexe;
         private $educationlvl;
         private $experience;
-        private $filedata;
         private $role;
         private $status;
         private $cdate;
+        private $filedata;
+        private $proofdoc;
 
-        public function __construct($username, $email, $pwd, $itbackground, $age, $sexe, $educationlvl, $experience, $role, $status, $filedata) {
+        public function __construct($username, $email, $pwd, $itbackground, $age, $sexe, $educationlvl, $experience, $role, $status, $filedata, $proofdoc) {
             $this->username = $username;
             $this->email = $email;
             $this->pwd = $pwd;
@@ -26,6 +27,7 @@
             $this->role = $role;
             $this->status = $status;
             $this->filedata = $filedata;
+            $this->proofdoc = $proofdoc;
         }
 
         public function getId() {
@@ -131,5 +133,14 @@
         public function setCdate($cdate) {
             $this->cdate = $cdate;
         }
+
+        public function getProofdoc() {
+            return $this->proofdoc;
+        }
+
+        public function setProofdoc($proofdoc) {
+            $this->proofdoc = $proofdoc;
+        }
+        
     }
 ?>
