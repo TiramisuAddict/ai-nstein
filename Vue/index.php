@@ -11,24 +11,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <link rel="icon" type="image/x-icon" href="../Dependencies/img/logo.ico" />
+  <link rel="icon" type="image/x-icon" href="../Vue/img/logo.ico" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Braah+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="../Dependencies/FrontOffice/theme/plugins/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../Vue/FrontOffice/theme/plugins/bootstrap/bootstrap.min.css">
   <!-- slick slider -->
-  <link rel="stylesheet" href="../Dependencies/FrontOffice/theme/plugins/slick/slick.css">
+  <link rel="stylesheet" href="../Vue/FrontOffice/theme/plugins/slick/slick.css">
   <!-- themefy-icon -->
-  <link rel="stylesheet" href="../Dependencies/FrontOffice/theme/plugins/themify-icons/themify-icons.css">
+  <link rel="stylesheet" href="../Vue/FrontOffice/theme/plugins/themify-icons/themify-icons.css">
   <!-- venobox css -->
-  <link rel="stylesheet" href="../Dependencies/FrontOffice/theme/plugins/venobox/venobox.css">
+  <link rel="stylesheet" href="../Vue/FrontOffice/theme/plugins/venobox/venobox.css">
   <!-- card slider -->
-  <link rel="stylesheet" href="../Dependencies/FrontOffice/theme/plugins/card-slider/css/style.css">
+  <link rel="stylesheet" href="../Vue/FrontOffice/theme/plugins/card-slider/css/style.css">
 
   <!-- Main Stylesheet -->
-  <link href="../Dependencies/FrontOffice/theme/css/style.css" rel="stylesheet">
+  <link href="../Vue/FrontOffice/theme/css/style.css" rel="stylesheet">
 
   <style>
     body {
@@ -93,7 +93,7 @@
     }
     
     .bg-galaxy{
-        background-image: url("../Dependencies/FrontOffice/theme/images/backgrounds/Space.jpg");
+        background-image: url("../Vue/FrontOffice/theme/images/backgrounds/Space.jpg");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -186,7 +186,7 @@
   
 <header class="navigation fixed-top">
   <nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand" href="index.php"><img src="../Dependencies/FrontOffice/theme/images/logo.svg" width="150" ></a>
+    <a class="navbar-brand" href="index.php"><img src="../Vue/FrontOffice/theme/images/logo.svg" width="150" ></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
       aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -234,8 +234,13 @@
           </li>
         <?php else: ?>
             <li class="nav-item">
-            <a class="nav-link brand-name" href="userProfile.php" style="font-family: 'Braah One', sans-serif;"><?php echo $_SESSION['username']; ?></a>
-            </li>
+            <?php
+              if ($_SESSION['role'] == 'Admin') {
+                echo '<a class="nav-link brand-name" href="dashboard.php" style="font-family: \'Braah One\', sans-serif;">' . $_SESSION['username'] . '</a>';
+              } else {
+                echo '<a class="nav-link brand-name" href="userProfile.php" style="font-family: \'Braah One\', sans-serif;">' . $_SESSION['username'] . '</a>';
+              }
+            ?>
             <li class="nav-item">
             <a class="nav-link btn" href="sign_out.php">Log Off</a>
             </li>
@@ -247,7 +252,7 @@
 
 <!-- banner -->
 <section class="banner bg-cover position-relative d-flex justify-content-center align-items-center"
-  data-background="../Dependencies/FrontOffice/theme/images/banner/banner2.jpg">
+  data-background="../Vue/FrontOffice/theme/images/banner/banner2.jpg">
   <div class="container">
     <div class="row">
     </div>
@@ -315,14 +320,14 @@
 <!-- feature -->
 <section class="section bg-galaxy position-relative">
   <div class="bg-image overlay-secondary">
-    <img src="../Dependencies/FrontOffice/theme/images/feature.jpg" alt="bg-image">
+    <img src="../Vue/FrontOffice/theme/images/feature.jpg" alt="bg-image">
   </div>
   <div class="container-fluid">
     <div class="row">
       <div class="col-xl-9 mx-auto">
         <div class="row align-items-center">
           <div class="col-lg-4 mb-4 mb-lg-0">
-            <img src="../Dependencies/FrontOffice/theme/images/feature.jpg" alt="feature-image" class="img-fluid">
+            <img src="../Vue/FrontOffice/theme/images/feature.jpg" alt="feature-image" class="img-fluid">
           </div>
           <div class="col-lg-7 offset-lg-1">
             <div class="row">
@@ -475,7 +480,7 @@
     <div class="row">
       <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
         <article class="card">
-          <img src="../Dependencies/FrontOffice/theme/images/blog/post-1.jpg" alt="post-thumb" class="card-img-top mb-2">
+          <img src="../Vue/FrontOffice/theme/images/blog/post-1.jpg" alt="post-thumb" class="card-img-top mb-2">
           <div class="card-body p-0">
             <time>January 15, 2018</time>
             <a href="blog-single" class="h4 card-title d-block my-3 text-dark hover-text-underline">How These Different
@@ -486,7 +491,7 @@
       </div>
       <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
         <article class="card">
-          <img src="../Dependencies/FrontOffice/theme/images/blog/post-2.jpg" alt="post-thumb" class="card-img-top mb-2">
+          <img src="../Vue/FrontOffice/theme/images/blog/post-2.jpg" alt="post-thumb" class="card-img-top mb-2">
           <div class="card-body p-0">
             <time>January 15, 2018</time>
             <a href="blog-single" class="h4 card-title d-block my-3 text-dark hover-text-underline">How These Different
@@ -497,7 +502,7 @@
       </div>
       <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
         <article class="card">
-          <img src="../Dependencies/FrontOffice/theme/images/blog/post-3.jpg" alt="post-thumb" class="card-img-top mb-2">
+          <img src="../Vue/FrontOffice/theme/images/blog/post-3.jpg" alt="post-thumb" class="card-img-top mb-2">
           <div class="card-body p-0">
             <time>January 15, 2018</time>
             <a href="blog-single" class="h4 card-title d-block my-3 text-dark hover-text-underline">How These Different
@@ -513,7 +518,7 @@
 
 <!-- footer -->
 <footer class="bg-gradient-primary position-relative">
-  <img src="../Dependencies/FrontOffice/theme/images/backgrounds/map.png" class="img-fluid overlay-image" alt="">
+  <img src="../Vue/FrontOffice/theme/images/backgrounds/map.png" class="img-fluid overlay-image" alt="">
   <div class="section">
     <div class="container">
       <div class="row align-items-center">
@@ -573,27 +578,27 @@
 <!-- /footer -->
 
 <!-- jQuery -->
-<script src="../Dependencies/FrontOffice/theme/plugins/jQuery/jquery.min.js"></script>
+<script src="../Vue/FrontOffice/theme/plugins/jQuery/jquery.min.js"></script>
 <!-- Bootstrap JS -->
-<script src="../Dependencies/FrontOffice/theme/plugins/bootstrap/bootstrap.min.js"></script>
+<script src="../Vue/FrontOffice/theme/plugins/bootstrap/bootstrap.min.js"></script>
 <!-- slick slider -->
-<script src="../Dependencies/FrontOffice/theme/plugins/slick/slick.min.js"></script>
+<script src="../Vue/FrontOffice/theme/plugins/slick/slick.min.js"></script>
 <!-- venobox -->
-<script src="../Dependencies/FrontOffice/theme/plugins/venobox/venobox.min.js"></script>
+<script src="../Vue/FrontOffice/theme/plugins/venobox/venobox.min.js"></script>
 <!-- shuffle -->
-<script src="../Dependencies/FrontOffice/theme/plugins/shuffle/shuffle.min.js"></script>
+<script src="../Vue/FrontOffice/theme/plugins/shuffle/shuffle.min.js"></script>
 <!-- apear js -->
-<script src="../Dependencies/FrontOffice/theme/plugins/counto/apear.js"></script>
+<script src="../Vue/FrontOffice/theme/plugins/counto/apear.js"></script>
 <!-- counter -->
-<script src="../Dependencies/FrontOffice/theme/plugins/counto/counTo.js"></script>
+<script src="../Vue/FrontOffice/theme/plugins/counto/counTo.js"></script>
 <!-- card slider -->
-<script src="../Dependencies/FrontOffice/theme/plugins/card-slider/js/card-slider-min.js"></script>
+<script src="../Vue/FrontOffice/theme/plugins/card-slider/js/card-slider-min.js"></script>
 <!-- google map -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU&libraries=places"></script>
-<script src="../Dependencies/FrontOffice/theme/plugins/google-map/gmap.js"></script>
+<script src="../Vue/FrontOffice/theme/plugins/google-map/gmap.js"></script>
 
 <!-- Main Script -->
-<script src="../Dependencies/FrontOffice/theme/js/script.js"></script>
+<script src="../Vue/FrontOffice/theme/js/script.js"></script>
 
 </body>
 </html>

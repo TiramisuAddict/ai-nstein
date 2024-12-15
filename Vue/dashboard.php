@@ -25,7 +25,7 @@
   dir="ltr"
   data-theme="theme-default"
   data-assets-path="../assets/"
-  data-template="vertical-menu-template-free"
+  data-BackOffice="vertical-menu-BackOffice-free"
   data-style="light">
   <head>
     <meta charset="utf-8" />
@@ -33,25 +33,25 @@
 
     <title>Dashboard</title>
 
-    <link rel="icon" type="image/x-icon" href="../Dependencies/img/logo.ico" />
+    <link rel="icon" type="image/x-icon" href="../Vue/img/logo.ico" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Braah+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../Dependencies/Template/vendor/css/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="../Dependencies/Template/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="../Dependencies/Template/css/demo.css" />
+    <link rel="stylesheet" href="../Vue/BackOffice/vendor/css/core.css" class="BackOffice-customizer-core-css" />
+    <link rel="stylesheet" href="../Vue/BackOffice/vendor/css/theme-default.css" class="BackOffice-customizer-theme-css" />
+    <link rel="stylesheet" href="../Vue/BackOffice/css/demo.css" />
 
-    <link rel="stylesheet" href="../Dependencies/Template/vendor/fonts/boxicons.css" />
-    <link rel="stylesheet" href="../Dependencies/Template/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="../Vue/BackOffice/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="../Vue/BackOffice/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-    <link rel="stylesheet" href="../Dependencies/Template/vendor/css/page-auth.css" />
+    <link rel="stylesheet" href="../Vue/BackOffice/vendor/css/page-auth.css" />
 
-    <link rel="stylesheet" href="../Dependencies/Template/vendor/css/pretty-btn.css" />
+    <link rel="stylesheet" href="../Vue/BackOffice/vendor/css/pretty-btn.css" />
 
-    <script src="../Dependencies/Template/vendor/js/helpers.js"></script>
-    <script src="../Dependencies/Template/js/config.js"></script>
+    <script src="../Vue/BackOffice/vendor/js/helpers.js"></script>
+    <script src="../Vue/BackOffice/js/config.js"></script>
   </head>
 
   <body>
@@ -61,9 +61,9 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <!-- logo -->
           <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
+            <a href="index.php" class="app-brand-link">
               <span class="app-brand-logo demo">
-                <img src="../Dependencies/img/ai_nstein_logo.svg" alt="ainstein logo" width="120"/>
+                <img src="../Vue/img/ai_nstein_logo.svg" alt="ainstein logo" width="120"/>
               </span>
             </a>
 
@@ -176,77 +176,16 @@
 
 							<div class="row m-1">
 
-                <div class="col-lg-3 col-6 mb-1 mt-2">
-									<div class="card h-100">
-										<div class="card-body">
-											<div class="card-title d-flex align-items-start justify-content-between mb-4">
-												<div class="avatar flex-shrink-0">
-													<img
-														src="../Dependencies/img/user.svg"
-														alt="chart success"
-														class="rounded" />
-												</div>
-											</div>
-											<p class="mb-1">Males</p>
-											<h4 class="card-title mb-3 brand-name"><?php echo $numberOfMaleUsers; ?></h4>
-											<small class="fw-medium text-accent"><i class="bx bx-up-arrow-alt "></i> +35.63%</small>
-										</div>
-									</div>
-								</div>
+                
+                
+                <div class="col-lg-6 col-6 mb-1 mt-4">
+                  <div id="genderchart" class="card h-100 pt-4"></div>
+                </div>
 
-                <div class="col-lg-3 col-6 mb-1 mt-2">
-									<div class="card h-100">
-										<div class="card-body">
-											<div class="card-title d-flex align-items-start justify-content-between mb-4">
-												<div class="avatar flex-shrink-0">
-													<img
-														src="../Dependencies/img/user.svg"
-														alt="chart success"
-														class="rounded" />
-												</div>
-											</div>
-											<p class="mb-1">Females</p>
-											<h4 class="card-title mb-3 brand-name"><?php echo $numberOfFemaleUsers ?></h4>
-											<small class="text-primary fw-medium"><i class="bx bx-up-arrow-alt "></i> +24.63%</small>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-6 mb-1 mt-2">
-									<div class="card h-100">
-										<div class="card-body">
-											<div class="card-title d-flex align-items-start justify-content-between mb-4">
-												<div class="avatar flex-shrink-0">
-													<img
-														src="../Dependencies/img/users.svg"
-														alt="chart success"
-														class="rounded" />
-												</div>
-											</div>
-											<p class="mb-1">Users</p>
-											<h4 class="card-title mb-3 brand-name"><?php echo $numberOfUsers ?></h4>
-											<small class="fw-medium text-accent"><i class="bx bx-up-arrow-alt "></i> +72.80%</small>
-										</div>
-									</div>
-								</div>
-					
-								<div class="col-lg-3 col-6 mb-1 mt-2">
-									<div class="card h-100">
-										<div class="card-body">
-											<div class="card-title d-flex align-items-start justify-content-between mb-4">
-												<div class="avatar flex-shrink-0">
-													<img
-														src="../Dependencies/img/award.svg"
-														alt="wallet info"
-														class="rounded" />
-												</div>
-											</div>
-											<p class="mb-1">Experts</p>
-											<h4 class="card-title mb-3 brand-name"><?php echo $numberOfExperts ?></h4>
-											<small class="text-primary fw-medium"><i class="bx bx-up-arrow-alt"></i> +28.42%</small>
-										</div>
-									</div>
-								</div>
+                <div class="col-lg-6 col-6 mb-1 mt-4">
+                  <div id="rolechart" class="card h-100 pt-4"></div>
+                </div>
+                
 
 							</div>
 					
@@ -284,7 +223,6 @@
 									</table>
 								</div>
 							</div>
-
             </div>
 
             <!-- Footer -->
@@ -317,9 +255,57 @@
     </div>
 
 		<!-- Aside scripts -->
-    <script src="../Dependencies/Template/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="../Dependencies/Template/vendor/js/menu.js"></script>
-    <script src="../Dependencies/Template/js/main.js"></script>
+    <script src="../Vue/BackOffice/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="../Vue/BackOffice/vendor/js/menu.js"></script>
+    <script src="../Vue/BackOffice/js/main.js"></script>
+    
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script>
+      Highcharts.chart('genderchart', {
+        chart: { type: 'pie' },
+        title: { text: 'Number of Male and Female Users' },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: true,
+              format: '<b>{point.name}</b>: {point.y}'
+            }
+          }
+        },
+        series: [{
+          name: 'Users',
+          colorByPoint: true,
+          data: [
+            { name: 'Males', y: <?php echo $numberOfMaleUsers; ?>, color: '#01b5dd' },
+            { name: 'Females', y: <?php echo $numberOfFemaleUsers; ?>, color: '#D22498' }
+          ]
+        }]
+      });
 
+      Highcharts.chart('rolechart', {
+        chart: { type: 'pie' },
+        title: { text: 'Students & Experts' },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: true,
+              format: '<b>{point.name}</b>: {point.y}'
+            }
+          }
+        },
+        series: [{
+          name: 'Users',
+          colorByPoint: true,
+          data: [
+            { name: 'Experts', y: <?php echo $numberOfExperts; ?>, color: '#ffab00' },
+            { name: 'Students', y: <?php echo $numberOfUsers; ?>, color: '#3D3D3D' }
+          ]
+        }]
+      });
+    </script>
   </body>
 </html>

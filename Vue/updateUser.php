@@ -9,7 +9,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en" class="light-style layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free" data-style="light">
+<html lang="en" class="light-style layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-BackOffice="vertical-menu-BackOffice-free" data-style="light">
 
 <head>
   <meta charset="utf-8" />
@@ -17,23 +17,23 @@
 
   <title>Dashboard</title>
 
-  <link rel="icon" type="image/x-icon" href="../Dependencies/img/logo.ico" />
+  <link rel="icon" type="image/x-icon" href="../Vue/img/logo.ico" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Braah+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="../Dependencies/Template/vendor/css/core.css" class="template-customizer-core-css" />
-  <link rel="stylesheet" href="../Dependencies/Template/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-  <link rel="stylesheet" href="../Dependencies/Template/css/demo.css" />
+  <link rel="stylesheet" href="../Vue/BackOffice/vendor/css/core.css" class="BackOffice-customizer-core-css" />
+  <link rel="stylesheet" href="../Vue/BackOffice/vendor/css/theme-default.css" class="BackOffice-customizer-theme-css" />
+  <link rel="stylesheet" href="../Vue/BackOffice/css/demo.css" />
 
-  <link rel="stylesheet" href="../Dependencies/Template/vendor/fonts/boxicons.css" />
-  <link rel="stylesheet" href="../Dependencies/Template/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <link rel="stylesheet" href="../Vue/BackOffice/vendor/fonts/boxicons.css" />
+  <link rel="stylesheet" href="../Vue/BackOffice/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-  <link rel="stylesheet" href="../Dependencies/Template/vendor/css/page-auth.css" />
+  <link rel="stylesheet" href="../Vue/BackOffice/vendor/css/page-auth.css" />
 
-  <script src="../Dependencies/Template/vendor/js/helpers.js"></script>
-  <script src="../Dependencies/Template/js/config.js"></script>
+  <script src="../Vue/BackOffice/vendor/js/helpers.js"></script>
+  <script src="../Vue/BackOffice/js/config.js"></script>
 
 </head>
 
@@ -46,7 +46,7 @@
         <div class="app-brand demo">
           <a href="index.html" class="app-brand-link">
             <span class="app-brand-logo demo">
-              <img src="../Dependencies/img/ai_nstein_logo.svg" alt="ainstein logo" width="120" />
+              <img src="../Vue/img/ai_nstein_logo.svg" alt="ainstein logo" width="120" />
             </span>
           </a>
 
@@ -259,9 +259,9 @@
   </div>
 
   <!-- Aside scripts -->
-  <script src="../Dependencies/Template/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-  <script src="../Dependencies/Template/vendor/js/menu.js"></script>
-  <script src="../Dependencies/Template/js/main.js"></script>
+  <script src="../Vue/BackOffice/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="../Vue/BackOffice/vendor/js/menu.js"></script>
+  <script src="../Vue/BackOffice/js/main.js"></script>
 
 </body>
 

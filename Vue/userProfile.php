@@ -15,23 +15,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Profile</title>
 
-        <link rel="icon" type="image/x-icon" href="../Dependencies/img/logo.ico" />
+        <link rel="icon" type="image/x-icon" href="../Vue/img/logo.ico" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Braah+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
-        <link rel="stylesheet" href="../Dependencies/Template/vendor/css/core.css" class="template-customizer-core-css" />
-        <link rel="stylesheet" href="../Dependencies/Template/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-        <link rel="stylesheet" href="../Dependencies/Template/css/demo.css" />
+        <link rel="stylesheet" href="../Vue/BackOffice/vendor/css/core.css" class="BackOffice-customizer-core-css" />
+        <link rel="stylesheet" href="../Vue/BackOffice/vendor/css/theme-default.css" class="BackOffice-customizer-theme-css" />
+        <link rel="stylesheet" href="../Vue/BackOffice/css/demo.css" />
 
-        <link rel="stylesheet" href="../Dependencies/Template/vendor/fonts/boxicons.css" />
-        <link rel="stylesheet" href="../Dependencies/Template/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+        <link rel="stylesheet" href="../Vue/BackOffice/vendor/fonts/boxicons.css" />
+        <link rel="stylesheet" href="../Vue/BackOffice/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-        <link rel="stylesheet" href="../Dependencies/Template/vendor/css/page-auth.css" />
+        <link rel="stylesheet" href="../Vue/BackOffice/vendor/css/page-auth.css" />
 
-        <script src="../Dependencies/Template/vendor/js/helpers.js"></script>
-        <script src="../Dependencies/Template/js/config.js"></script>
+        <script src="../Vue/BackOffice/vendor/js/helpers.js"></script>
+        <script src="../Vue/BackOffice/js/config.js"></script>
 
         <style>
             .profile-header img {
