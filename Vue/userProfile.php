@@ -5,7 +5,7 @@
     $userController = new UserController();
 
     session_start();
-    $user = $userController->getUserById($_SESSION['id']);
+    $user = $userController->getUserById($_GET['id']);
 ?>
 
 <!DOCTYPE html>

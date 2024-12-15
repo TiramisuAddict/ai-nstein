@@ -238,7 +238,7 @@
               if ($_SESSION['role'] == 'Admin') {
                 echo '<a class="nav-link brand-name" href="dashboard.php" style="font-family: \'Braah One\', sans-serif;">' . $_SESSION['username'] . '</a>';
               } else {
-                echo '<a class="nav-link brand-name" href="userProfile.php" style="font-family: \'Braah One\', sans-serif;">' . $_SESSION['username'] . '</a>';
+                echo '<a class="nav-link brand-name" href="userProfile.php?id='.$_SESSION['id'].'" style="font-family: \'Braah One\', sans-serif;">' . $_SESSION['username'] . '</a>';
               }
             ?>
             <li class="nav-item">

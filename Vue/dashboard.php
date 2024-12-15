@@ -174,9 +174,8 @@
           <div class="content-wrapper">
             <div class="container-xxl flex-grow-1 container-p-y">
 
+              <!-- Charts -->
 							<div class="row m-1">
-
-                
                 
                 <div class="col-lg-6 col-6 mb-1 mt-4">
                   <div id="genderchart" class="card h-100 pt-4"></div>
@@ -185,9 +184,8 @@
                 <div class="col-lg-6 col-6 mb-1 mt-4">
                   <div id="rolechart" class="card h-100 pt-4"></div>
                 </div>
-                
-
 							</div>
+              <!-- Charts -->
 					
 							<div class="card m-4">
 								<div class="table-responsive text-nowrap">
