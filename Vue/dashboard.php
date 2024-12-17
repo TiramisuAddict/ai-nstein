@@ -6,10 +6,8 @@
   
   require_once '../Controller/UserController.php';  
 
-  // Créer une instance de UserController
   $userController = new UserController();
 
-  // Récupérer tous les utilisateurs
   $users = $userController->getUser();
 
   $numberOfMaleUsers = $userController->countMaleUsers();
@@ -177,11 +175,11 @@
               <!-- Charts -->
 							<div class="row m-1">
                 
-                <div class="col-lg-6 col-6 mb-1 mt-4">
+                <div class="col-lg-6 col-12 mb-1 mt-4">
                   <div id="genderchart" class="card h-100 pt-4"></div>
                 </div>
 
-                <div class="col-lg-6 col-6 mb-1 mt-4">
+                <div class="col-lg-6 col-12 mb-1 mt-4">
                   <div id="rolechart" class="card h-100 pt-4"></div>
                 </div>
 							</div>
@@ -305,5 +303,6 @@
         }]
       });
     </script>
+
   </body>
 </html>
